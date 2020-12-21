@@ -38,8 +38,14 @@ Route::post('post/{id}', [CommentController::class, 'store']);
 
 
 Route::get('/user', [UserProfileController::class, 'index'])->name('userprofile');
+
 Route::get('/createPost', [CreatePostController::class, 'index'])->name('createpost');
 Route::post('/createPost', [CreatePostController::class, 'store']);
+
+Route::delete('/deleteComment/{id}',  [CommentController::class, 'destroy'])->name('deletecomment');
+Route::post('/editComment/{id}',  [CommentController::class, 'edit'])->name('editcomment');
+
+
 
 Route::get('/user/posts', [UserProfileController::class, 'usersposts'])->name('userspost');
 

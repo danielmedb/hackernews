@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Comment;
 
 class CommentController extends Controller
 {
@@ -26,5 +27,12 @@ class CommentController extends Controller
         ]);
 
         return back();
+    }
+
+    public function destroy($id)
+    {
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+        return back()->with('success', 'Comment was successfully deleted');
     }
 }

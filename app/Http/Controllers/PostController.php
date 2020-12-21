@@ -20,7 +20,6 @@ class PostController extends Controller
     {
 
         $posts = post::all();
-        // dd($posts);
         $comments = Post::where('post_id', '1')->count();
 
         return view('posts.index', [
@@ -50,7 +49,8 @@ class PostController extends Controller
 
         return view('posts.post')->with([
             'post' => $post,
-            'comments' => $comments
+            'comments' => $comments,
+
         ]);
     }
 }
