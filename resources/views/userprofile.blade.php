@@ -4,12 +4,52 @@
 <div class="row mt-5">
     <div class="col-md-3 pl-0">
         <img src="{{ asset('images/db.jpg') }}" data-vote="" class="rounded-circle mb-3 img-thumbnail" />
-        <div class="list-group ">
+        <div class="list-group">
             <a href="#" class="list-group-item list-group-item-action active">User Management</a>
             <a href="{{ route('userspost') }}" class="list-group-item list-group-item-action">Posts</a>
             <a href="#" class="list-group-item list-group-item-action">Comments</a>
         </div>
+      
+ 
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Your profile pictures</h4>
+                        <hr>
+                        <div class="card text-left">
+                            <div class="card-body">
+                                @foreach($images as $image)
+                                    <img src="{{ asset('images/'.$user->id.'/' . $image->getFilename()) }}" style="width: 50px; height: 50px;" />
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <form action="{{ route('userprofile.image.upload', $user) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        
+                        <div class="row">
+                
+                            <div class="col-md-6">
+                                <input type="file" name="image" class="form-control">
+                            </div>
+                 
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success">Upload</button>
+                            </div>
+                 
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
     </div>
+
+
     <div class="col-md-9 pr-0">
         <div class="card">
             <div class="card-body">
@@ -21,11 +61,26 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <form>
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif        
+                    @if (session('credentials'))
+                        <div class="alert alert-success">
+                            {{ session('credentials') }}
+                        </div>
+                    @endif                
+                        <form method="post" action="{{ route('userprofile.store', $user) }}">
+                            @csrf
                             <div class="form-group row">
                                 <label for="username" class="col-4 col-form-label">Username</label>
                                 <div class="col-8">
-                                    <input id="username" name="username" value="{{ $user->name }}" placeholder="Username" class="form-control here" required="required" type="text">
+                                    <input id="name" name="name" value="{{ $user->name }}" placeholder="Username" class="form-control here" required="required" type="text">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -40,24 +95,53 @@
                                     <textarea id="biography" name="biography" cols="40" rows="4" class="form-control"></textarea>
                                 </div>
                             </div>
-
-                            <div class="form-group row">
-                                <label for="newpass" class="col-4 col-form-label">New Password</label>
-                                <div class="col-8">
-                                    <input id="newpass" name="newpass" placeholder="New Password" class="form-control here" type="text">
-                                </div>
-                            </div>
                             <div class="form-group row">
                                 <div class="offset-4 col-8">
                                     <button name="submit" type="submit" class="btn btn-primary">Update my profile</button>
                                 </div>
                             </div>
+                          
                         </form>
                     </div>
                 </div>
 
             </div>
         </div>
+        <div class="card mt-5">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Change password</h4>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        <form method="post" action="{{ route('userprofile.password', $user) }}">
+                            @csrf
+                            <div class="form-group row">
+                                <label for="password" class="col-4 col-form-label">New Password</label>
+                                <div class="col-8">
+                                    <input id="password" name="password" placeholder="New Password" class="form-control here" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-4 col-8">
+                                    <button name="submit" type="submit" class="btn btn-primary">Change password</button>
+                                </div>
+                            </div>
+                          
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>        
     </div>
 </div>
 @endsection

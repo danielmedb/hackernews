@@ -41,10 +41,10 @@ Route::post('/post/{id}', [CommentController::class, 'store']);
 Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
 Route::delete('/post/{post}/likes',  [VoteController::class, 'destroy']);
 
-Route::post('saveComment/{id}', [CommentController::class, 'saveComment']);
+Route::post('post/{comment}/{id}', [CommentController::class, 'saveComment']);
 
 
-Route::get('/user', [UserProfileController::class, 'index'])->name('userprofile');
+
 
 Route::get('/createPost', [CreatePostController::class, 'index'])->name('createpost');
 Route::post('/createPost', [CreatePostController::class, 'store']);
@@ -54,8 +54,12 @@ Route::post('/post/editComment/{id}',  [CommentController::class, 'edit'])->name
 
 
 
-
+Route::get('/user', [UserProfileController::class, 'index'])->name('userprofile');
 Route::get('/user/posts', [UserProfileController::class, 'usersposts'])->name('userspost');
+Route::post('/user/updateprofile/{user}', [UserProfileController::class, 'store'])->name('userprofile.store');
+Route::post('/user/updateprofile/imageupload/{user}', [UserProfileController::class, 'profileimageupdate'])->name('userprofile.image.upload');
+
+Route::post('/user/changepassword/{user}', [UserProfileController::class, 'changepassword'])->name('userprofile.password');
 
 Route::get('/home', function () {
     return view('home')->name('home');

@@ -22,7 +22,6 @@ class PostController extends Controller
     public function index(Request $request)
     {
 
-        // $posts = Post::with(['comments', 'votes', 'user.vote'])->get();
         $posts = Post::latest()->with(['comments', 'votes', 'user'])->get();
         return view('posts.index', [
             'posts' => $posts

@@ -23,4 +23,12 @@ class PostPolicy
     public function deleteComment(User $user, Comment $comment){
         return $user->id == $comment->user_id;
     }
+
+    public function editComment(User $user, Comment $comment){
+        return $user->id == $comment->user_id;
+    }
+
+    public function editProfile(User $user){
+        return $user->id === auth()->user()->id;
+    }
 }

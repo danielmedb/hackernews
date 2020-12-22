@@ -49,12 +49,16 @@
                                     <button class="btn btn-default btn-xs" type="submit">Edit</button>
                                 </form>
                                  --}}
-                                 <button class="btn btn-default btn-xs btn-editComment" data-edit="{{ $comment->id }}" type="submit">Edit</button>
-                                <form method="post" action="{{ route('deletecomment', $comment) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-default btn-xs" type="submit">Delete</button>
-                                </form>
+                                @can('editcomment', $comment)
+                                    <button class="btn btn-default btn-xs btn-editComment" data-edit="{{ $comment->id }}" type="submit">Edit</button>
+                                @endcan
+                                @can('deletecomment', $comment)
+                                    <form method="post" action="{{ route('deletecomment', $comment) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-default btn-xs" type="submit">Delete</button>
+                                    </form>
+                                @endcan
                             </div>
                             @endif
                         </div>
