@@ -9,7 +9,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CreatePostController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\VoteController;
-use Illuminate\Support\Facades\Route; 
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +61,6 @@ Route::post('/user/updateprofile/imageupload/{user}', [UserProfileController::cl
 
 Route::post('/user/changepassword/{user}', [UserProfileController::class, 'changepassword'])->name('userprofile.password');
 
-Route::get('/home', function () {
-    return view('home')->name('home');
+Route::get('/', function () {
+    return view('/auth.login');
 });

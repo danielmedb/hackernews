@@ -19,11 +19,8 @@ class UserProfileController extends Controller
     public function index()
     {
         $user = User::findOrFail(auth()->id());
-        $images = \File::allFiles(public_path('images/'.auth()->id()));
-      
-        // return view('userprofile')->with('user')->get();
+        $images = \File::allFiles(public_path('images/' . auth()->id()));
 
-        // $posts = Post::latest()->with(['comments', 'votes', 'user'])->get();
         return view('userprofile', [
             'user' => $user,
             'images' => $images
@@ -33,6 +30,7 @@ class UserProfileController extends Controller
     public function usersposts(Request $request)
     {
         $posts = $request->user()->posts()->get();
+        // test
         return view('userposts')->with('posts', $posts);
     }
 
@@ -50,9 +48,9 @@ class UserProfileController extends Controller
         $request->user()->update([
             'name' => $request->name,
             'email' => $request->email,
-            
+
         ]);
-            return back()->with('credentials', 'Your credentials has been updated.');
+        return back()->with('credentials', 'Your credentials has been updated.');
     }
 
     public function changepassword(Request $request, User $user)
@@ -63,7 +61,7 @@ class UserProfileController extends Controller
         ]);
         $request->user()->update([
             'password' => Hash::make($request->password)
-            
+
         ]);
         return back()->with('status', 'Password has been updated');
     }
@@ -74,13 +72,13 @@ class UserProfileController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
-        
-        $imageName = time().'.'.$request->image->extension();  
-     
-        $request->image->move(public_path('images/'.$user->id), $imageName);
-    
+
+        $imageName = time() . '.' . $request->image->extension();
+
+        $request->image->move(public_path('images/' . $user->id), $imageName);
+
         return back()
-            ->with('success','You have successfully upload image.')
-            ->with('image',$imageName);         
+            ->with('success', 'You have successfully upload image.')
+            ->with('image', $imageName);
     }
 }
