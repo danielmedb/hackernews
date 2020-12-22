@@ -24,4 +24,8 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class, 'id');
     }
+
+    public function topVotes()
+    {
+    }
 }

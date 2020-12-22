@@ -43,6 +43,7 @@ Route::delete('/post/{post}/likes',  [VoteController::class, 'destroy']);
 
 Route::post('post/{comment}/{id}', [CommentController::class, 'saveComment']);
 
+Route::get('/top', [PostController::class, 'topVotedPosts'])->name('topVotes');
 
 
 

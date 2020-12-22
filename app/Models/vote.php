@@ -21,4 +21,8 @@ class Vote extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function topVotes()
+    {
+        return $this->belongsTo(Post::class);
+    }
 }

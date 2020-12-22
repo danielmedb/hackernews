@@ -28,7 +28,7 @@
                         <a class="nav-link" href="/posts">New</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/posts">Past</a>
+                        <a class="nav-link" href="{{ route('topVotes') }}">Top</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/posts">Comments</a>

@@ -47,6 +47,15 @@ class PostController extends Controller
         return back();
     }
 
+    public function topVotedPosts()
+    {
+        $posts = Post::withCount(['votes'])->orderByDesc('votes_count')->get();
+        // dd($posts);
+        return view('posts.top', [
+            'posts' => $posts
+        ]);
+    }
+
     public function singlePost(Request $request, $id)
     {
 

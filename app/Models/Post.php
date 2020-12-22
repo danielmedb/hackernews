@@ -30,11 +30,15 @@ class Post extends Model
     {
         return $this->hasMany(Vote::class);
     }
+    public function topVotes()
+    {
+        return $this->hasMany(Vote::class);
+    }
 
     public function likedBy(User $user)
     {
         return $this->votes->contains('user_id', $user->id);
-    }    
+    }
 
     public function userVoted()
     {
