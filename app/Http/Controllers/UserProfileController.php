@@ -30,7 +30,6 @@ class UserProfileController extends Controller
     public function usersposts(Request $request)
     {
         $posts = $request->user()->posts()->get();
-        // test
         return view('userposts')->with('posts', $posts);
     }
 

@@ -28,9 +28,25 @@
 {{ $error }}
 @endforeach
 @endif
-<h4>Create account</h4>
+
+<div class="login-page">
+    <div class="form">
+        <h4>Register new account</h4>
+      <form class="login-form" action="{{ route('register') }}" method="post">
+        @csrf
+        <input type="input" name="name" placeholder="Displayname">
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" name="register" class="btn btn-success message" value="Register">
+        <p class="message">Already have an account? <a href="{{ route('login') }}">Login</a></p>
+      </form>
+    </div>
+</div>
+
+{{-- <h4>Create account</h4>
 <div class="row">
    
+
     <form method="post" action="{{ route('register') }}">
         @csrf
         <table>
@@ -50,6 +66,6 @@
         </table>
     </form>
 
-</div>
+</div> --}}
 
 @endsection
