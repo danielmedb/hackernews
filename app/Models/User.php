@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -51,7 +52,13 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    public function createpost()
+    public function vote()
     {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function hasVotes()
+    {
+        return $this->belongsTo(Vote::class);
     }
 }

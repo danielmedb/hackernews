@@ -29,10 +29,17 @@ class CommentController extends Controller
         return back();
     }
 
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
-        $comment = Comment::findOrFail($id);
+        
+        
+        $this->authorize('deleteComment', $comment);
         $comment->delete();
         return back()->with('success', 'Comment was successfully deleted');
+    }
+
+    public function savecomment($id)
+    {
+        dd($id);
     }
 }

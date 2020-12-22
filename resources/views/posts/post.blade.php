@@ -3,7 +3,7 @@
 @section('content')
 
 
-
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 <span class="upvote mr-2"><img src="{{ asset('images/arrow_up.png') }}" style="width: 10px;" /></span><span class="">{{ $post->body }}</span>
 <small>Created by: {{ $post->user->name}}</small>
 
@@ -21,14 +21,14 @@
     </div>
 </form>
 
-@if(isset($comments[0]))
-    @foreach($comments as $comment)
+
+@forelse($comments as $comment)
+
         <div class="row d-flex justify-content-center mt-2">
 
-            <div class="col-md-12">
-                <div class="card p-3">
+            <div class="col-md-12 m-3">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="user d-flex flex-row align-items-center">
+                        <div class="user d-flex flex-row align-items-center postcomment" data-comment='{{ $comment->id }}'>
                             <span>
                                 <small>{{ $comment->comment }}</small>
                             </span>
@@ -43,13 +43,14 @@
                             
                             @if(Auth::user()->id === $comment->user->id)
                             <div class="btn-group">
-                                <form action="{{ route('editcomment', ['id' => $comment->id]) }}" method="post">
+                                {{-- <form name="editComment" action="{{ route('editcomment', ['id' => $comment->id]) }}" method="post">
                                     @csrf
 
                                     <button class="btn btn-default btn-xs" type="submit">Edit</button>
                                 </form>
-                                
-                                <form action="{{ route('deletecomment', ['id' => $comment->id]) }}" method="post">
+                                 --}}
+                                 <button class="btn btn-default btn-xs btn-editComment" data-edit="{{ $comment->id }}" type="submit">Edit</button>
+                                <form method="post" action="{{ route('deletecomment', $comment) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-default btn-xs" type="submit">Delete</button>
@@ -58,11 +59,10 @@
                             @endif
                         </div>
                     </div>
-                </div>
             </div>
         </div>
-    @endforeach
-@else
+
+@empty
     No comments
-@endif
+@endforelse
 @endsection

@@ -11,6 +11,6 @@ class LogoutController extends Controller
     {
         Auth::logout();
 
-        return redirect()->route('newposts');
+        return redirect()->route('login');
     }
 }

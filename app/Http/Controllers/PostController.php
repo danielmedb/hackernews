@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\vote;
+
+
 
 class PostController extends Controller
 {
@@ -19,12 +22,10 @@ class PostController extends Controller
     public function index(Request $request)
     {
 
-        $posts = post::all();
-        $comments = Post::where('post_id', '1')->count();
-
+        // $posts = Post::with(['comments', 'votes', 'user.vote'])->get();
+        $posts = Post::latest()->with(['comments', 'votes', 'user'])->get();
         return view('posts.index', [
-            'posts' => $posts,
-            'comments' => $comments
+            'posts' => $posts
         ]);
     }
 
@@ -34,18 +35,24 @@ class PostController extends Controller
             'body' => 'required'
         ]);
 
-        $request->user()->posts()->create([
-            'body' => $request->body
-        ]);
+        $request->user()->posts()->create($request->only('body'));
 
+        return back();
+    }
+
+    public function destroy(Post $post)
+    {
+        $this->authorize('delete', $post);
+       
+        $post->delete();
         return back();
     }
 
     public function singlePost(Request $request, $id)
     {
 
-        $post = Comment::findOrFail($id)->post;
-        $comments = Post::findOrFail($id)->comments;
+        $post = Post::findOrFail($id);
+        $comments = Comment::latest()->with(['post', 'user', 'post.comments'])->where('post_id', $id)->get();
 
         return view('posts.post')->with([
             'post' => $post,

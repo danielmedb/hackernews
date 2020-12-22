@@ -25,4 +25,19 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class, 'post_id');
     }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function likedBy(User $user)
+    {
+        return $this->votes->contains('user_id', $user->id);
+    }    
+
+    public function userVoted()
+    {
+        return $this->hasOneThrough(Vote::class, User::class, 'id', 'user_id');
+    }
 }
