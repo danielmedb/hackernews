@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class UserProfileController extends Controller
@@ -38,10 +39,16 @@ class UserProfileController extends Controller
         $this->authorize('editProfile', $user);
 
         $this->validate($request, [
-            'name' => 'required',
-            Rule::unique('users')->ignore($user->name, 'name'),
-            'email' => 'required', 'email',
-            Rule::unique('users')->ignore($user->email, 'email')
+
+
+            'email' => [
+                'required',
+                Rule::unique('users')->ignore($user->id),
+            ],
+            'name' => [
+                'required',
+                Rule::unique('users')->ignore($user->id),
+            ]
         ]);
 
         $request->user()->update([
