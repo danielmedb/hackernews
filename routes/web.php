@@ -44,6 +44,7 @@ Route::delete('/post/{post}/likes',  [VoteController::class, 'destroy']);
 Route::post('post/{comment}/{id}', [CommentController::class, 'saveComment']);
 
 Route::get('/top', [PostController::class, 'topVotedPosts'])->name('topVotes');
+Route::get('/comment', [PostController::class, 'mostComments'])->name('topComments');
 
 
 
@@ -52,6 +53,7 @@ Route::post('/createPost', [CreatePostController::class, 'store']);
 
 Route::delete('/post/deleteComment/{comment}',  [CommentController::class, 'destroy'])->name('deletecomment');
 Route::post('/post/editComment/{id}',  [CommentController::class, 'edit'])->name('editcomment');
+
 
 
 

@@ -50,8 +50,15 @@ class PostController extends Controller
     public function topVotedPosts()
     {
         $posts = Post::withCount(['votes'])->orderByDesc('votes_count')->get();
-        // dd($posts);
         return view('posts.top', [
+            'posts' => $posts
+        ]);
+    }
+
+    public function mostComments()
+    {
+        $posts = Post::withCount(['comments'])->orderByDesc('comments_count')->get();
+        return view('posts.comment', [
             'posts' => $posts
         ]);
     }

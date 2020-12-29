@@ -31,7 +31,7 @@
                         <a class="nav-link" href="{{ route('topVotes') }}">Top</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/posts">Comments</a>
+                        <a class="nav-link" href="{{ route('topComments') }}">Comments</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/posts">Ask</a>
