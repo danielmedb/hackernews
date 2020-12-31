@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profileimage'
     ];
 
     /**
@@ -61,5 +62,4 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Vote::class);
     }
-
 }

@@ -17,14 +17,18 @@ class UserProfileController extends Controller
         $this->middleware(['auth']);
     }
 
+    public function images()
+    {
+    }
+
     public function index()
     {
         $user = User::findOrFail(auth()->id());
-        $images = \File::allFiles(public_path('images/' . auth()->id()));
+        // $images = \File::allFiles(public_path('images/' . auth()->id()));
 
         return view('userprofile', [
             'user' => $user,
-            'images' => $images
+            // 'images' => $images
         ]);
     }
 
@@ -39,8 +43,6 @@ class UserProfileController extends Controller
         $this->authorize('editProfile', $user);
 
         $this->validate($request, [
-
-
             'email' => [
                 'required',
                 Rule::unique('users')->ignore($user->id),
@@ -54,8 +56,8 @@ class UserProfileController extends Controller
         $request->user()->update([
             'name' => $request->name,
             'email' => $request->email,
-
         ]);
+
         return back()->with('credentials', 'Your credentials has been updated.');
     }
 
@@ -67,7 +69,6 @@ class UserProfileController extends Controller
         ]);
         $request->user()->update([
             'password' => Hash::make($request->password)
-
         ]);
         return back()->with('status', 'Password has been updated');
     }
@@ -75,13 +76,19 @@ class UserProfileController extends Controller
     public function profileimageupdate(Request $request, User $user)
     {
         $this->authorize('editProfile', $user);
-        $request->validate([
+
+        $this->validate($request, [
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-        $imageName = time() . '.' . $request->image->extension();
+        $randomNumber = rand(1, 20000000000);
+        $imageName = $randomNumber . '.' . $request->image->extension();
 
-        $request->image->move(public_path('images/' . $user->id), $imageName);
+        $request->image->move(public_path('images/'), $imageName);
+
+        $request->user()->update([
+            'profileimage' => $imageName
+        ]);
 
         return back()
             ->with('success', 'You have successfully upload image.')

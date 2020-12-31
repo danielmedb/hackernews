@@ -3,41 +3,26 @@
 @section('content')
 <div class="row mt-5">
     <div class="col-md-3 pl-0">
-        <img src="{{ asset('images/db.jpg') }}" data-vote="" class="rounded-circle mb-3 img-thumbnail" />
+        <img src="{{ $user->profileimage ? asset('images/'.$user->profileimage.'') : asset('images/nopic.png') }}" class="rounded-circle mb-3 img-thumbnail" />
         <div class="list-group">
             <a href="#" class="list-group-item list-group-item-action active">User Management</a>
             <a href="{{ route('userspost') }}" class="list-group-item list-group-item-action">Posts</a>
             <a href="#" class="list-group-item list-group-item-action">Comments</a>
         </div>
       
- 
-
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>Your profile pictures</h4>
-                        <hr>
-                        <div class="card text-left">
-                            <div class="card-body">
-                                @foreach($images as $image)
-                                    <img src="{{ asset('images/'.$user->id.'/' . $image->getFilename()) }}" style="width: 50px; height: 50px;" />
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <form action="{{ route('userprofile.image.upload', $user) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         
                         <div class="row">
                 
-                            <div class="col-md-6">
+                            <div class="col-md-12 m-2">
                                 <input type="file" name="image" class="form-control">
                             </div>
                  
-                            <div class="col-md-6">
+                            <div class="col-md-12 mt-1">
                                 <button type="submit" class="btn btn-success">Upload</button>
                             </div>
                  
