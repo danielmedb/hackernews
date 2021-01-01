@@ -27,7 +27,7 @@ class LoginController extends Controller
         ]);
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return back()->with('status', 'Incorrect login details!');
+            return back()->withInput()->withstatus('Incorrect login details!');
         }
 
         return redirect()->route('posts');
