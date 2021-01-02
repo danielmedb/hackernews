@@ -50,7 +50,7 @@ class PostController extends Controller
     public function topVotedPosts()
     {
         $posts = Post::withCount(['votes'])->orderByDesc('votes_count')->paginate(30);
-        return view('posts.top', [
+        return view('posts.index', [
             'posts' => $posts
         ]);
     }
@@ -58,7 +58,7 @@ class PostController extends Controller
     public function mostComments()
     {
         $posts = Post::withCount(['comments'])->orderByDesc('comments_count')->paginate(30);
-        return view('posts.comment', [
+        return view('posts.index', [
             'posts' => $posts
         ]);
     }

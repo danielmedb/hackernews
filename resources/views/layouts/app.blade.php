@@ -19,50 +19,54 @@
             color: #000;
         }
     </style>
-    <div class="container">
-        <div class="row mobile-row">
-            <nav class="navbar navbar-expand-lg p-0 w-100" style="background-color: #ff6600; color: #000;">
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                    <div class="line line-1"></div>
-                    <div class="line line-2"></div>
-                    <div class="line line-3"></div>
-                </button>
-                <div class="collapse navbar-collapse pl-2" id="navbarCollapse">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Hacker news</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/posts">New</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('topVotes') }}">Top</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('topComments') }}">Comments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('posts') }}">Show</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('createpost') }}">Submit</a>
-                        </li>
-                    </ul>
-                <div class="mobile-nav-user">
-                    @auth
-                        <a href="{{ route('userprofile') }}" class="pr-2">{{ auth()->user()->name }}</a> | <a href="{{ route('logout') }}" class="pl-2 pr-2"> Logout</a>
-                    @endauth
-                    @guest
-                        <a href="{{ route('login') }}" class="pr-2">Login</a>
-                        <a href="{{ route('register') }}" class="pr-2">Register</a>
-                    @endguest
-                </div>
+    <div class="container-fluid">
+        <div class="row mobile-row justify-content-md-center">
+            <div class="col-lg-10 col-md-12 col-sm-12 col-xl-10 p-0">
+                <nav class="navbar navbar-expand-lg p-0" style="background-color: #ff6600; color: #000;">
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <div class="line line-1"></div>
+                        <div class="line line-2"></div>
+                        <div class="line line-3"></div>
+                    </button>
+                    <div class="collapse navbar-collapse pl-2" id="navbarCollapse">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="">Hacker news</a> 
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/posts">New</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('topVotes') }}">Top</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('topComments') }}">Comments</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('posts') }}">Show</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('createpost') }}">Submit</a>
+                            </li>
+                        </ul>
+                        <div class="mobile-nav-user">
+                            @auth
+                                <a href="{{ route('userprofile') }}" class="pr-2">{{ auth()->user()->name }}</a> | <a href="{{ route('logout') }}" class="pl-2 pr-2"> Logout</a>
+                            @endauth
+                            @guest
+                                <a href="{{ route('login') }}" class="pr-2">Login</a>
+                                <a href="{{ route('register') }}" class="pr-2">Register</a>
+                            @endguest
+                        </div>
+                    </div>
+                </nav>
             </div>
-            </nav>
         </div>
-
-        @yield('content')
-
+        <div class="row justify-content-md-center">
+            <div class="col-lg-10 col-md-12 col-sm-12 col-xl-10 pr-3 pl-3">
+                @yield('content')
+            </div>
+        </div>
     </div>
 
     <script src="{{ URL::asset('js/scripts.js') }}"></script>
