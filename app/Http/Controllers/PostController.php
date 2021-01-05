@@ -49,7 +49,7 @@ class PostController extends Controller
 
     public function topVotedPosts()
     {
-        $posts = Post::withCount(['votes'])->orderByDesc('votes_count')->paginate(30);
+        $posts = Post::withCount(['votes'])->with(['comments', 'user'])->orderByDesc('votes_count')->paginate(30);
         return view('posts.index', [
             'posts' => $posts
         ]);
@@ -57,7 +57,7 @@ class PostController extends Controller
 
     public function mostComments()
     {
-        $posts = Post::withCount(['comments'])->orderByDesc('comments_count')->paginate(30);
+        $posts = Post::withCount(['comments'])->with(['votes', 'user'])->orderByDesc('comments_count')->paginate(30);
         return view('posts.index', [
             'posts' => $posts
         ]);
@@ -68,13 +68,12 @@ class PostController extends Controller
 
         $post = Post::findOrFail($id);
         $comments = Comment::latest()->with(['post', 'user', 'post.comments'])->where([
-            ['post_id', '=', $id],
-            ['reply_to', '=', NULL]
+            ['post_id', '=', $id]
         ])->get();
 
         return view('posts.post')->with([
             'post' => $post,
-            'comments' => $comments,
+            'comments' => $comments
 
         ]);
     }

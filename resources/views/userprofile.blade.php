@@ -54,7 +54,7 @@
                             <div class="form-group row">
                                 <label for="biography" class="col-4 col-form-label">Biography</label>
                                 <div class="col-8">
-                                    <textarea id="biography" name="biography" cols="40" rows="4" class="form-control"></textarea>
+                                    <textarea id="biography" name="biography" cols="40" rows="4" class="form-control" >{{ $user->biography }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -115,9 +115,37 @@
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>        
+        <div class="card mt-5">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Delete my account</h4>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        @can('deleteUser', $user)
+                        <form method="post" action="{{ route('userprofile.user.delete', $user) }}">
+                            @csrf
+                            <div class="form-group row">
+                                    <button name="submit" type="submit" class="btn btn-danger ml-3">Delete my account, This action cannot be undon!</button>
+                                </div>
+                            </div>
+                        </form>
+                        @endcan
+                    </div>
+                </div>
+
+            </div>
+        </div>                
     </div>
 </div>
 @endsection

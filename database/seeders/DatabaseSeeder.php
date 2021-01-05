@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $user = User::factory(100)
-            ->has(Post::factory()->count(3))
-            ->has(Comment::factory()->count(3))
-            ->has(Vote::factory()->count(1))
+            ->has(Post::factory()->count(100))
+            ->has(Comment::factory()->count(300))
+            ->has(Vote::factory()->count(100))
             ->create();
     }
 }

@@ -13,9 +13,11 @@
             <p class="message">Not registered? <a href="{{ route('register') }}">Create an account</a></p>
           </form>
           @if (session('status'))
-          <div class="alert alert-danger mt-3">{{ session('status') }}</div>
-          
-        @endif
+            <div class="alert alert-danger mt-3">{{ session('status') }}</div>
+          @endif
+          @if (session('deleteduser'))
+            <div class="alert alert-info mt-3">{{ session('deleteduser') }}</div>
+          @endif
         </div>
     </div>
   </div>

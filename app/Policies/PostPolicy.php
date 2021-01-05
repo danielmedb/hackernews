@@ -16,19 +16,28 @@ class PostPolicy
      *
      * @return void
      */
-    public function delete(User $user, Post $post){
+    public function delete(User $user, Post $post)
+    {
         return $user->id == $post->user_id;
     }
-    
-    public function deleteComment(User $user, Comment $comment){
+
+    public function deleteComment(User $user, Comment $comment)
+    {
         return $user->id == $comment->user_id;
     }
 
-    public function editComment(User $user, Comment $comment){
+    public function editComment(User $user, Comment $comment)
+    {
         return $user->id == $comment->user_id;
     }
 
-    public function editProfile(User $user){
+    public function editProfile(User $user)
+    {
+        return $user->id === auth()->user()->id;
+    }
+
+    public function deleteUser(User $user)
+    {
         return $user->id === auth()->user()->id;
     }
 }

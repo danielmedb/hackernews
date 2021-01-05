@@ -77,6 +77,10 @@ background-color: #eaeaea;
   transform: rotate(180deg);
 }
 
+.nav-link-active{
+  text-decoration: underline;
+}
+
 @media screen and (max-width: 992px) {
   .mobile-nav-user{
     font-weight: bold;

@@ -56,6 +56,7 @@ class UserProfileController extends Controller
         $request->user()->update([
             'name' => $request->name,
             'email' => $request->email,
+            'biography' => $request->biography
         ]);
 
         return back()->with('credentials', 'Your credentials has been updated.');
@@ -93,5 +94,12 @@ class UserProfileController extends Controller
         return back()
             ->with('success', 'You have successfully upload image.')
             ->with('image', $imageName);
+    }
+
+    public function deleteuser(Request $request, User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('login')->with('deleteduser', 'All your information has been deleted.');
     }
 }

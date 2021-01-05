@@ -65,6 +65,8 @@ Route::get('/user/posts', [UserProfileController::class, 'usersposts'])->name('u
 Route::post('/user/updateprofile/{user}', [UserProfileController::class, 'store'])->name('userprofile.store');
 Route::post('/user/updateprofile/imageupload/{user}', [UserProfileController::class, 'profileimageupdate'])->name('userprofile.image.upload');
 
+Route::post('/user/delete/{user}', [UserProfileController::class, 'deleteuser'])->name('userprofile.user.delete');
+
 Route::post('/user/changepassword/{user}', [UserProfileController::class, 'changepassword'])->name('userprofile.password');
 
 Route::get('/', function () {

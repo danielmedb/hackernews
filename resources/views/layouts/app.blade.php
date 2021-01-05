@@ -31,20 +31,21 @@
                     </button>
                     <div class="collapse navbar-collapse pl-2" id="navbarCollapse">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <a class="nav-link" href="">Hacker news</a> 
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('posts') }}">New</a>
+                                <a class="nav-link {{ Request::route()->getName() == 'posts' ? 'nav-link-active' : '' }}" href="{{ route('posts') }}">Latest</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('topVotes') }}">Top</a>
+                               
+                                <a class="nav-link {{ Request::route()->getName() == 'topVotes' ? 'nav-link-active' : '' }}" href="{{ route('topVotes') }}">Top</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('topComments') }}">Comments</a>
+                                <a class="nav-link {{ Request::route()->getName() == 'topComments' ? 'nav-link-active' : '' }}" href="{{ route('topComments') }}">Comments</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('createpost') }}">Submit</a>
+                                <a class="nav-link {{ Request::route()->getName() == 'createpost' ? 'nav-link-active' : '' }}" href="{{ route('createpost') }}">Submit</a>
                             </li>
                         </ul>
                         <div class="mobile-nav-user">
