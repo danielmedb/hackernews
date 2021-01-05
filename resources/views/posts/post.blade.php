@@ -4,6 +4,7 @@
 
 
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+
 <span class="upvote mr-2"><img src="{{ asset('images/arrow_up.png') }}" style="width: 10px;" /></span><span class="">{{ $post->body }}</span>
 <small>Created by: {{ $post->user->name}}</small>
 
@@ -30,27 +31,20 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="user d-flex flex-row align-items-center postcomment" data-comment='{{ $comment->id }}'>
                             <span>
-                                <small>{{ $comment->comment }}</small>
+                                {{ $comment->comment }}
                             </span>
                         </div>
-
                     </div>
                     <div class="action d-flex justify-content-between mt-2 align-items-center">
                         <div class="reply">
                             <small>{{ $comment->user->name }} |</small>
-                            <small>Reply |</small>
+                            <small><a href="{{ route('reply', $comment->id, $comment->id) }}">Reply</a> |</small>
                             <small>{{ $comment->created_at->diffForHumans() }}</small>
                             
                             @if(Auth::user()->id === $comment->user->id)
                             <div class="btn-group">
-                                {{-- <form name="editComment" action="{{ route('editcomment', ['id' => $comment->id]) }}" method="post">
-                                    @csrf
-
-                                    <button class="btn btn-default btn-xs" type="submit">Edit</button>
-                                </form>
-                                 --}}
                                 @can('editcomment', $comment)
-                                    <button class="btn btn-default btn-xs btn-editComment" data-edit="{{ $comment->id }}" type="submit">Edit</button>
+                                    <button class="btn btn-default btn-xs btn-editComment" data-edit="{{ $comment->id }}" type="submit">Edit</button> 
                                 @endcan
                                 @can('deletecomment', $comment)
                                     <form method="post" action="{{ route('deletecomment', $comment) }}">

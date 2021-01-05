@@ -19,6 +19,8 @@ class CreateCommentsTable extends Migration
             $table->integer('user_id')->constrained()->onDelete('cascade');
             $table->text('comment');
             $table->integer('post_id');
+            $table->integer('reply_to')->nullable();
+            $table->string('edit')->nullable();
         });
     }
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Post;
+use App\Models\User;
 
 class CommentController extends Controller
 {
@@ -14,9 +16,19 @@ class CommentController extends Controller
         $this->middleware(['auth']);
     }
 
+    public function commentUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'comment' => 'required|min:1'
+        ]);
+        $request->user()->comments()->update([
+            'comment' => $request->comment
+        ]);
+        return back();
+    }
+
     public function store(Request $request)
     {
-
         $this->validate($request, [
             'comment' => 'required'
         ]);
@@ -31,15 +43,34 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
-        
-        
         $this->authorize('deleteComment', $comment);
         $comment->delete();
         return back()->with('success', 'Comment was successfully deleted');
     }
 
-    public function savecomment($id)
+    public function reply(Comment $comment)
     {
-        dd($id);
+        $comment = Comment::find($comment->id);
+        $post = Post::find($comment->post_id);
+        $user = User::find($comment->user_id);
+
+        return view('posts.reply', [
+            'comment' => $comment,
+            'post' => $post
+        ]);
+    }
+
+    public function replyStore(Request $request)
+    {
+        $this->validate($request, [
+            'comment' => 'required|min:1'
+        ]);
+
+        // dd($request->input());
+        $request->user()->comments()->create([
+            'comment' => $request->comment,
+            'post_id' => $request->postId,
+            'reply_to' => $request->replyTo
+        ]);
     }
 }

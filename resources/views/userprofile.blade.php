@@ -4,34 +4,11 @@
 <div class="row mt-5">
     <div class="col-md-3 pl-0">
         <img src="{{ $user->profileimage ? asset('images/'.$user->profileimage.'') : asset('images/nopic.png') }}" class="rounded-circle mb-3 img-thumbnail" />
-        <div class="list-group">
+        {{-- <div class="list-group">
             <a href="#" class="list-group-item list-group-item-action active">User Management</a>
             <a href="{{ route('userspost') }}" class="list-group-item list-group-item-action">Posts</a>
             <a href="#" class="list-group-item list-group-item-action">Comments</a>
-        </div>
-      
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <form action="{{ route('userprofile.image.upload', $user) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        
-                        <div class="row">
-                
-                            <div class="col-md-12 m-2">
-                                <input type="file" name="image" class="form-control">
-                            </div>
-                 
-                            <div class="col-md-12 mt-1">
-                                <button type="submit" class="btn btn-success">Upload</button>
-                            </div>
-                 
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-        </div>
+        </div> --}}
     </div>
 
 
@@ -85,7 +62,21 @@
                                     <button name="submit" type="submit" class="btn btn-primary">Update my profile</button>
                                 </div>
                             </div>
-                          
+                        </form>
+                        <form action="{{ route('userprofile.image.upload', $user) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            
+                            <div class="form-group row mt-5">
+                                <label for="image" class="col-4 col-form-label">Update profile picture</label>
+                                <div class="col-8">
+                                    <input type="file" name="image" class="form-control p-0" style="border: 0px;">
+                                </div>
+                     
+                                <div class="offset-4 col-8 mt-1">
+                                    <button type="submit" class="btn btn-success">Upload</button>
+                                </div>
+                     
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -22,9 +22,9 @@
         @endif
         
     </div>
-    
+
     <div class="title col-lg-10 pl-0"><a href="/post/{{$post->id}}">{{ $post->body }}</a>
-        <span class="text-muted small">( {{ $post->source }})</span>
+        <span class="text-muted">( {{ $post->source }})</span>
     </div>
     <div class="under text-muted small pl-4"> {{ $post->votes->count() }} By {{ $post->user->name }} | {{ $post->created_at->diffForHumans() }} | <a href="/post/{{$post->id}}">{{ $post->comments->count() }} comments</a></div>
     @can('delete', $post)

@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -30,20 +31,17 @@
                     </button>
                     <div class="collapse navbar-collapse pl-2" id="navbarCollapse">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
+                            <li class="nav-item active">
                                 <a class="nav-link" href="">Hacker news</a> 
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/posts">New</a>
+                                <a class="nav-link" href="{{ route('posts') }}">New</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('topVotes') }}">Top</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('topComments') }}">Comments</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('posts') }}">Show</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('createpost') }}">Submit</a>

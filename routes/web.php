@@ -37,6 +37,7 @@ Route::get('/posts', [PostController::class, 'index'])->name('posts');
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 Route::get('/post/{id}', [PostController::class, 'singlePost']);
 Route::post('/post/{id}', [CommentController::class, 'store']);
+Route::post('/post/comment/update/{id}', [CommentController::class, 'commentUpdate']);
 
 Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
 Route::delete('/post/{post}/likes',  [VoteController::class, 'destroy']);
@@ -54,6 +55,8 @@ Route::post('/createPost', [CreatePostController::class, 'store']);
 Route::delete('/post/deleteComment/{comment}',  [CommentController::class, 'destroy'])->name('deletecomment');
 Route::post('/post/editComment/{id}',  [CommentController::class, 'edit'])->name('editcomment');
 
+Route::get('/comment/{comment}/reply', [CommentController::class, 'reply'])->name('reply');
+Route::post('/comment/{comment}/reply', [CommentController::class, 'replyStore']);
 
 
 

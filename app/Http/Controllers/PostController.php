@@ -67,7 +67,10 @@ class PostController extends Controller
     {
 
         $post = Post::findOrFail($id);
-        $comments = Comment::latest()->with(['post', 'user', 'post.comments'])->where('post_id', $id)->get();
+        $comments = Comment::latest()->with(['post', 'user', 'post.comments'])->where([
+            ['post_id', '=', $id],
+            ['reply_to', '=', NULL]
+        ])->get();
 
         return view('posts.post')->with([
             'post' => $post,
