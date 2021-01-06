@@ -17,18 +17,11 @@ class UserProfileController extends Controller
         $this->middleware(['auth']);
     }
 
-    public function images()
-    {
-    }
-
     public function index()
     {
         $user = User::findOrFail(auth()->id());
-        // $images = \File::allFiles(public_path('images/' . auth()->id()));
-
         return view('userprofile', [
             'user' => $user,
-            // 'images' => $images
         ]);
     }
 
@@ -98,7 +91,9 @@ class UserProfileController extends Controller
 
     public function deleteuser(Request $request, User $user)
     {
+        $this->authorize('deleteUser', $user);
         $user->delete();
+        $request->session()->invalidate();
 
         return redirect()->route('login')->with('deleteduser', 'All your information has been deleted.');
     }

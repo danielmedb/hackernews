@@ -18,6 +18,7 @@ class CommentController extends Controller
 
     public function commentUpdate(Request $request)
     {
+        dd($request);
         $this->validate($request, [
             'comment' => 'required|min:1'
         ]);
@@ -66,7 +67,6 @@ class CommentController extends Controller
             'comment' => 'required|min:1'
         ]);
 
-        // dd($request->input());
         $request->user()->comments()->create([
             'comment' => $request->comment,
             'post_id' => $request->postId,
