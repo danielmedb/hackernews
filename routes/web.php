@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/newposts', [NewPostsController::class, 'index'])->name('newposts');
+// Route::get('/newposts', [NewPostsController::class, 'index'])->name('newposts');
 
 Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 

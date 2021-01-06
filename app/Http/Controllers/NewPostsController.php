@@ -13,6 +13,6 @@ class NewPostsController extends Controller
     }
     public function index()
     {
-        return view('newposts');
+        return view('posts');
     }
 }
