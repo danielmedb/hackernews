@@ -10,7 +10,7 @@ editComment.forEach((button) => {
         let edit = document.querySelector(`[data-comment="${id}"]`);
         edit.innerHTML = `
         <form action="/post/comment/update/${id}" method="post">
-            <textarea id="comment" name="comment" cols="100" rows="3" value="huh">
+            <textarea id="comment" name="comment" cols="100" rows="3">
                 ${edit.textContent.trim()}
             </textarea>
             <button type="submit" class="btn btn-success">Save comment</button>

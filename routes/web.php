@@ -23,51 +23,49 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-// Route::get('/newposts', [NewPostsController::class, 'index'])->name('newposts');
+/* Login, logout, register */
 
 Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
-
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
-
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('/posts', [PostController::class, 'index'])->name('posts');
-Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
-Route::get('/post/{id}', [PostController::class, 'singlePost']);
-Route::post('/post/{id}', [CommentController::class, 'store']);
-Route::post('/post/comment/update/{id}', [CommentController::class, 'commentUpdate']);
 
-Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
-Route::delete('/post/{post}/likes',  [VoteController::class, 'destroy']);
+/* Logged in users only! */
+Route::group(['middleware' => ['auth']], function () {
 
-Route::post('post/{comment}/{id}', [CommentController::class, 'saveComment']);
-
-Route::get('/top', [PostController::class, 'topVotedPosts'])->name('topVotes');
-Route::get('/comment', [PostController::class, 'mostComments'])->name('topComments');
+    /* Pages */
+    Route::get('/posts', [PostController::class, 'index'])->name('posts');
+    Route::get('/top', [PostController::class, 'topVotedPosts'])->name('topVotes');
+    Route::get('/comment', [PostController::class, 'mostComments'])->name('topComments');
+    Route::get('/createPost', [CreatePostController::class, 'index'])->name('createpost');
+    Route::get('/user', [UserProfileController::class, 'index'])->name('userprofile');
 
 
+    /* Delete actions */
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::delete('/post/{post}/likes',  [VoteController::class, 'destroy']);
+    Route::delete('/post/deleteComment/{comment}',  [CommentController::class, 'destroy'])->name('deletecomment');
+    Route::post('/user/delete/{user}', [UserProfileController::class, 'deleteuser'])->name('userprofile.user.delete');
 
-Route::get('/createPost', [CreatePostController::class, 'index'])->name('createpost');
-Route::post('/createPost', [CreatePostController::class, 'store']);
+    /* Posts actions */
+    Route::get('/post/{id}', [PostController::class, 'singlePost']);
+    Route::post('/post/{id}', [CommentController::class, 'store']);
+    Route::post('/post/comment/update/{id}', [CommentController::class, 'commentUpdate']);
+    Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
+    Route::post('post/{comment}/{id}', [CommentController::class, 'saveComment']);
+    Route::post('/createPost', [CreatePostController::class, 'store']);
+    Route::post('/post/editComment/{id}',  [CommentController::class, 'edit'])->name('editcomment');
+    Route::get('/comment/{comment}/reply', [CommentController::class, 'reply'])->name('reply');
+    Route::post('/comment/{comment}/reply', [CommentController::class, 'replyStore']);
 
-Route::delete('/post/deleteComment/{comment}',  [CommentController::class, 'destroy'])->name('deletecomment');
-Route::post('/post/editComment/{id}',  [CommentController::class, 'edit'])->name('editcomment');
-
-Route::get('/comment/{comment}/reply', [CommentController::class, 'reply'])->name('reply');
-Route::post('/comment/{comment}/reply', [CommentController::class, 'replyStore']);
-
-
-
-Route::get('/user', [UserProfileController::class, 'index'])->name('userprofile');
-Route::get('/user/posts', [UserProfileController::class, 'usersposts'])->name('userspost');
-Route::post('/user/updateprofile/{user}', [UserProfileController::class, 'store'])->name('userprofile.store');
-Route::post('/user/updateprofile/imageupload/{user}', [UserProfileController::class, 'profileimageupdate'])->name('userprofile.image.upload');
-
-Route::post('/user/delete/{user}', [UserProfileController::class, 'deleteuser'])->name('userprofile.user.delete');
-
-Route::post('/user/changepassword/{user}', [UserProfileController::class, 'changepassword'])->name('userprofile.password');
+    /* Userprofile */
+    Route::get('/user/posts', [UserProfileController::class, 'usersposts'])->name('userspost');
+    Route::post('/user/updateprofile/{user}', [UserProfileController::class, 'store'])->name('userprofile.store');
+    Route::post('/user/updateprofile/imageupload/{user}', [UserProfileController::class, 'profileimageupdate'])->name('userprofile.image.upload');
+    Route::post('/user/changepassword/{user}', [UserProfileController::class, 'changepassword'])->name('userprofile.password');
+});
 
 Route::get('/', function () {
     return view('/auth.login');
