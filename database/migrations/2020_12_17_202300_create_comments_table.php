@@ -21,6 +21,8 @@ class CreateCommentsTable extends Migration
             $table->integer('post_id');
             $table->integer('reply_to')->nullable();
             $table->string('edit')->nullable();
+            $table->integer('commentable_id')->unsigned()->nullable();
+            $table->string('commentable_type')->nullable();
         });
     }
 

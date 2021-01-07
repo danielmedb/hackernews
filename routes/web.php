@@ -42,7 +42,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/createPost', [CreatePostController::class, 'index'])->name('createpost');
     Route::get('/user', [UserProfileController::class, 'index'])->name('userprofile');
 
-
     /* Delete actions */
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::delete('/post/{post}/likes',  [VoteController::class, 'destroy']);

@@ -12,7 +12,9 @@ class Comment extends Model
     protected $fillable = [
         'comment',
         'post_id',
-        'reply_to'
+        'reply_to',
+        'commentable_id',
+        'commentable_type'
     ];
 
 
@@ -26,7 +28,13 @@ class Comment extends Model
         return $this->belongsTo(Post::class, 'id');
     }
 
-    public function topVotes()
+    public function commentable()
     {
+        return $this->morphTo();
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'reply_to');
     }
 }

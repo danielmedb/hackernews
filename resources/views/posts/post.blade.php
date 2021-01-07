@@ -22,11 +22,9 @@
     </div>
 </form>
 
-
 @forelse($comments as $comment)
 
         <div class="row d-flex justify-content-center mt-2">
-
             <div class="col-md-12 m-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="user d-flex flex-row align-items-center postcomment" data-comment='{{ $comment->id }}'>
@@ -58,7 +56,42 @@
                         </div>
                     </div>
             </div>
+            @if ( $comment->replies )
+            @foreach($comment->replies as $reply)
+            <div class="col-md-12 ml-5">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center postcomment" data-comment='{{ $reply->id }}'>
+                        <span>
+                            {{ $reply->comment }}
+                        </span>
+                    </div>
+                </div>
+                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                    <div class="reply">
+                        <small>{{ $reply->user->name }} |</small>
+                        <small>{{ $reply->created_at->diffForHumans() }}</small>
+                        @if(Auth::user()->id === $reply->user->id)
+                        <div class="btn-group">
+                            @can('editcomment', $reply)
+                                <button class="btn btn-default btn-xs btn-editComment" data-edit="{{ $reply->id }}" type="submit">Edit</button> 
+                            @endcan
+                            @can('deletecomment', $reply)
+                                <form method="post" action="{{ route('deletecomment', $reply) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-default btn-xs" type="submit">Delete</button>
+                                </form>
+                            @endcan
+                        </div>
+                        @endif
+                    </div>
+                </div>
         </div>
+            @endforeach            
+        </div>
+
+    @endif
+
 
 @empty
     No comments

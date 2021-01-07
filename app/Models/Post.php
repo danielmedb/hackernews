@@ -26,6 +26,10 @@ class Post extends Model
         return $this->hasMany(Comment::class, 'post_id');
     }
 
+    public function replyComments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
     public function votes()
     {
         return $this->hasMany(Vote::class);

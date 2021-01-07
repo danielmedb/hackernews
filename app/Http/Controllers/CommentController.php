@@ -18,7 +18,6 @@ class CommentController extends Controller
 
     public function commentUpdate(Request $request)
     {
-        dd($request);
         $this->validate($request, [
             'comment' => 'required|min:1'
         ]);
@@ -61,6 +60,7 @@ class CommentController extends Controller
         ]);
     }
 
+
     public function replyStore(Request $request)
     {
         $this->validate($request, [
@@ -72,5 +72,6 @@ class CommentController extends Controller
             'post_id' => $request->postId,
             'reply_to' => $request->replyTo
         ]);
+        return redirect('/post/' . $request->postId . '');
     }
 }
