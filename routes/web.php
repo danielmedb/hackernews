@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     /* Posts actions */
     Route::get('/post/{id}', [PostController::class, 'singlePost']);
     Route::post('/post/{id}', [CommentController::class, 'store']);
+    Route::get('/post/edit/{post}', [PostController::class, 'editpost'])->name('posts.edit');
     Route::post('/post/comment/update/{id}', [CommentController::class, 'commentUpdate']);
     Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
     Route::post('post/{comment}/{id}', [CommentController::class, 'saveComment']);

@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PostPolicy
@@ -29,6 +30,12 @@ class PostPolicy
     public function editComment(User $user, Comment $comment)
     {
         return $user->id == $comment->user_id;
+    }
+    public function editPost(User $user, Post $post)
+    {
+        return $user->id == $post->user_id
+            ? Response::allow()
+            : Response::deny('You do not own this post.');
     }
 
     public function editProfile(User $user)

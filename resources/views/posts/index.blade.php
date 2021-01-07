@@ -18,13 +18,9 @@
                 
             </form>
             @endif
-            @can('delete', $post)
-            <form method="post" action="{{ route('posts.destroy', $post) }}">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Delete</button>
-            </form>   
-            @endcan   
+            @can('editPost', $post)
+                <a href="{{ route('posts.edit', $post) }}">Edit</a>
+            @endcan
         </div>
         
         <div class="title col-10 pl-0"><a href="/post/{{$post->id}}">{{ $post->body }}</a>

@@ -28,6 +28,12 @@ class PostController extends Controller
         ]);
     }
 
+    public function editpost(Post $post)
+    {
+        $this->authorize('editPost', $post);
+        return view('posts.edit')->with('post', $post);
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [
