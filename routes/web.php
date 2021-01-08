@@ -29,9 +29,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
+
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
+
 Route::post('/resetpassword', [ResetPasswordController::class, 'index'])->name('resetpassword');
+Route::get('/resetpassword/{token}', [ResetPasswordController::class, 'reset'])->name('resetpassword.token');
+Route::post('/resetpassword/update/{token}', [ResetPasswordController::class, 'updatePassword'])->name('reset.store');
+
 
 
 /* Logged in users only! */

@@ -14,9 +14,11 @@ class VoteController extends Controller
     }
     public function store(Request $request, Post $post)
     {
+
         if ($post->likedBy($request->user())) {
             return response(null, 409);
         }
+
         $post->votes()->create([
             'user_id'  => $request->user()->id,
             'vote' => $request->vote,
