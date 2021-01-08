@@ -18,16 +18,24 @@
                 
             </form>
             @endif
-            @can('editPost', $post)
-                <a href="{{ route('posts.edit', $post) }}">Edit</a>
-            @endcan
+        
         </div>
         
         <div class="title col-10 pl-0"><a href="/post/{{$post->id}}">{{ $post->body }}</a>
             <span class="text-muted small">( {{ $post->source }})</span>
         </div>
-        <div class="col-12 under text-muted small pl-4"> {{ $post->votes->count()  }} {{ Str::plural('vote', $post->votes->count())  }} | By {{ $post->user->name }} {{ $post->created_at->diffForHumans() }} | <a href="/post/{{$post->id}}">{{ $post->comments->count() }} {{ Str::plural('comment', $post->comments->count()) }}</a></div>
-
+        <div class="col-12 under text-muted small pl-4"> 
+            {{ $post->votes->count()  }} 
+            {{ Str::plural('vote', $post->votes->count())  }} 
+            | By {{ $post->user->name }} {{ $post->created_at->diffForHumans() }} 
+            | <a href="/post/{{$post->id}}">
+                {{ $post->comments->count() }} {{ Str::plural('comment', $post->comments->count()) }}
+            </a>
+            @can('editPost', $post)
+                | <a href="{{ route('posts.edit', $post) }}">Edit</a>
+            @endcan
+        </div>
+       
     </div>
 @endforeach
 

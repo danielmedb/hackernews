@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="row mt-5">
-    <div class="col-md-3 pl-0">
-        <img src="{{ $user->profileimage ? asset('images/'.$user->profileimage.'') : asset('images/nopic.png') }}" class="rounded-circle mb-3 img-thumbnail" />
+    <div class="col-md-3 text-center">
+        <img src="{{ $user->profileimage ? asset('images/'.$user->profileimage.'') : asset('images/nopic.png') }}" class="rounded-circle mb-3 img-thumbnail" style="max-height: 250px;"  />
         {{-- <div class="list-group">
             <a href="#" class="list-group-item list-group-item-action active">User Management</a>
             <a href="{{ route('userspost') }}" class="list-group-item list-group-item-action">Posts</a>

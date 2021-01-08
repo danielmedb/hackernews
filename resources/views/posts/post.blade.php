@@ -11,7 +11,7 @@
 <form method="post">
     @csrf
     <div class="form-group row">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-10 col-sm-12">
             <textarea id="comment" name="comment" cols="40" rows="4" class="form-control"></textarea>
         </div>
     </div>

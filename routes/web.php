@@ -5,6 +5,7 @@ use App\Http\Controllers\NewPostsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CreatePostController;
 use App\Http\Controllers\UserProfileController;
@@ -23,13 +24,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-/* Login, logout, register */
+/* Login, logout, register, reset */
 
 Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
+Route::get('/resetpassword', [ResetPasswordController::class, 'index'])->name('resetpassword');
 
 
 /* Logged in users only! */
@@ -51,10 +53,11 @@ Route::group(['middleware' => ['auth']], function () {
     /* Posts actions */
     Route::get('/post/{id}', [PostController::class, 'singlePost']);
     Route::post('/post/{id}', [CommentController::class, 'store']);
-    Route::get('/post/edit/{post}', [PostController::class, 'editpost'])->name('posts.edit');
+    Route::get('/post/edit/{post}', [PostController::class, 'editpost']);
+    Route::post('/post/edit/{post}', [PostController::class, 'updatePost'])->name('posts.edit');
     Route::post('/post/comment/update/{id}', [CommentController::class, 'commentUpdate']);
     Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
-    Route::post('post/{comment}/{id}', [CommentController::class, 'saveComment']);
+    // Route::post('post/{comment}/{id}', [CommentController::class, 'saveComment']);
     Route::post('/createPost', [CreatePostController::class, 'store']);
     Route::post('/post/editComment/{id}',  [CommentController::class, 'edit'])->name('editcomment');
     Route::get('/comment/{comment}/reply', [CommentController::class, 'reply'])->name('reply');

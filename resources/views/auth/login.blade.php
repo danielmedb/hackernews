@@ -11,6 +11,7 @@
             <input type="password" name="password" placeholder="Password" required />
             <input type="submit" name="login" class="btn btn-success message" value="Login">
             <p class="message">Not registered? <a href="{{ route('register') }}">Create an account</a></p>
+            <p class="message">Forgot your password? <a href="{{ route('resetpassword') }}">Reset password</a></p>
           </form>
           @if (session('status'))
             <div class="alert alert-danger mt-3">{{ session('status') }}</div>

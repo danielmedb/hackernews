@@ -34,6 +34,19 @@ class PostController extends Controller
         return view('posts.edit')->with('post', $post);
     }
 
+    public function updatePost(Request $request, Post $post)
+    {
+        $this->authorize('editPost', $post);
+
+        $this->validate($request, [
+            'body' => 'required|min:1'
+        ]);
+        $request->user()->posts()->update([
+            'body' => $request->body
+        ]);
+        return back();
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [
