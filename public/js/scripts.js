@@ -18,3 +18,8 @@ editComment.forEach((button) => {
         `;
     });
 });
+
+const resetpassword = document.querySelector(".resetpassword");
+resetpassword.addEventListener('click', () => {
+    document.querySelector('.form_resetpassword').style.display = 'block';
+});
