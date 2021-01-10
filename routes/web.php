@@ -56,14 +56,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/user/delete/{user}', [UserProfileController::class, 'deleteuser'])->name('userprofile.user.delete');
 
     /* Posts actions */
+    Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
+
+    Route::post('/createPost', [CreatePostController::class, 'store']);
+
     Route::get('/post/{id}', [PostController::class, 'singlePost']);
-    Route::post('/post/{id}', [CommentController::class, 'store']);
     Route::get('/post/edit/{post}', [PostController::class, 'editpost']);
     Route::post('/post/edit/{post}', [PostController::class, 'updatePost'])->name('posts.edit');
+
+    Route::post('/post/{id}', [CommentController::class, 'store']);
     Route::post('/post/comment/update/{id}', [CommentController::class, 'commentUpdate']);
-    Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
-    // Route::post('post/{comment}/{id}', [CommentController::class, 'saveComment']);
-    Route::post('/createPost', [CreatePostController::class, 'store']);
     Route::post('/post/editComment/{id}',  [CommentController::class, 'edit'])->name('editcomment');
     Route::get('/comment/{comment}/reply', [CommentController::class, 'reply'])->name('reply');
     Route::post('/comment/{comment}/reply', [CommentController::class, 'replyStore']);

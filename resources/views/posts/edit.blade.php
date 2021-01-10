@@ -23,6 +23,17 @@
             <button type="submit" class="btn btn-group-sm btn-danger float-right mr-3">Delete post</button>
         </form>   
     @endcan   
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
 </div>
 
 @endsection

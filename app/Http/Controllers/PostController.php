@@ -39,10 +39,12 @@ class PostController extends Controller
         $this->authorize('editPost', $post);
 
         $this->validate($request, [
-            'body' => 'required|min:1'
+            'body' => 'required|min:1|max:200',
+            'source' => 'required|url'
         ]);
         $request->user()->posts()->update([
-            'body' => $request->body
+            'body' => $request->body,
+            'source' => $request->source
         ]);
         return back();
     }

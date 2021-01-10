@@ -79,6 +79,9 @@ background-color: #eaeaea;
 .nav-link-active{
   text-decoration: underline;
 }
+.avatar-xl img {
+  width: 300px;
+}
 
 @media screen and (max-width: 992px) {
   .mobile-nav-user{
