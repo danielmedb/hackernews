@@ -23,9 +23,7 @@ class PostController extends Controller
     {
 
         $posts = Post::latest()->with(['comments', 'votes', 'user'])->paginate(30);
-        return view('posts.index', [
-            'posts' => $posts
-        ]);
+        return view('posts.index', compact('posts'));
     }
 
     public function editpost(Post $post)
@@ -37,16 +35,13 @@ class PostController extends Controller
     public function updatePost(Request $request, Post $post)
     {
         $this->authorize('editPost', $post);
-
         $this->validate($request, [
-            'body' => 'required|min:1|max:200',
+            'body' => 'required|min:1|max:150',
             'source' => 'required|url'
         ]);
 
-        $post->update([
-            'body' => $request->body,
-            'source' => $request->source
-        ]);
+        $post->update($request->all());
+
         return back();
     }
 
@@ -81,9 +76,7 @@ class PostController extends Controller
     {
         $posts = Post::withCount(['comments'])->with(['votes', 'user'])->orderByDesc('comments_count')->paginate(30);
 
-        return view('posts.index', [
-            'posts' => $posts
-        ]);
+        return view('posts.index', compact('posts'));
     }
 
     public function singlePost(Request $request, $id)
@@ -94,9 +87,6 @@ class PostController extends Controller
             ['reply_to', '=', null]
         ])->get();
 
-        return view('posts.post')->with([
-            'post' => $post,
-            'comments' => $comments
-        ]);
+        return view('posts.post', compact('post', 'comments'));
     }
 }
