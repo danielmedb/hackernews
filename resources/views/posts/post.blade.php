@@ -40,58 +40,54 @@
 </form>
 
 @forelse($comments as $comment)
-
-        <div class="row d-flex justify-content-center mt-2">
-            <div class="col-md-12 m-3">
+    <article class="row d-flex justify-content-center mt-2">
+        <div class="col-md-12 m-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center postcomment" data-comment='{{ $comment->id }}'>
+                        <span>
+                            {{ $comment->comment }}
+                        </span>
+                    </div>
+                </div>
+                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                    <div class="reply">
+                        <small>{{ $comment->user->name }} |</small>
+                        <small><a href="{{ route('reply', $comment->id, $comment->id) }}">Reply</a> |</small>
+                        <small>{{ $comment->created_at->diffForHumans() }}</small>
+                        
+                        @if(Auth::user()->id === $comment->user->id)
+                            @can('editcomment', $comment)
+                                <small>| <a href="{{ route('edit.comment', $comment) }}">Edit</a></small>
+                            @endcan
+                        @endif
+                    </div>
+                </div>
+        </div>
+        @if ( $comment->replies )
+            @foreach($comment->replies as $reply)
+                <div class="col-12 ml-5">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="user d-flex flex-row align-items-center postcomment" data-comment='{{ $comment->id }}'>
+                        <div class="user d-flex flex-row align-items-center postcomment" data-comment='{{ $reply->id }}'>
                             <span>
-                                {{ $comment->comment }}
+                                {{ $reply->comment }}
                             </span>
                         </div>
                     </div>
                     <div class="action d-flex justify-content-between mt-2 align-items-center">
                         <div class="reply">
-                            <small>{{ $comment->user->name }} |</small>
-                            <small><a href="{{ route('reply', $comment->id, $comment->id) }}">Reply</a> |</small>
-                            <small>{{ $comment->created_at->diffForHumans() }}</small>
-                            
-                            @if(Auth::user()->id === $comment->user->id)
-                                @can('editcomment', $comment)
-                                    <small>| <a href="{{ route('edit.comment', $comment) }}">Edit</a></small>
+                            <small>{{ $reply->user->name }} |</small>
+                            <small>{{ $reply->created_at->diffForHumans() }}</small>
+                            @if(Auth::user()->id === $reply->user->id)
+                                @can('editcomment', $reply)
+                                    <small> | <a href="{{ route('edit.comment', $reply) }}">Edit</a></small>
                                 @endcan
                             @endif
                         </div>
                     </div>
-            </div>
-            @if ( $comment->replies )
-                @foreach($comment->replies as $reply)
-                    <div class="col-md-12 ml-5">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="user d-flex flex-row align-items-center postcomment" data-comment='{{ $reply->id }}'>
-                                <span>
-                                    {{ $reply->comment }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="action d-flex justify-content-between mt-2 align-items-center">
-                            <div class="reply">
-                                <small>{{ $reply->user->name }} |</small>
-                                <small>{{ $reply->created_at->diffForHumans() }}</small>
-                                @if(Auth::user()->id === $reply->user->id)
-                                    @can('editcomment', $reply)
-                                        <small><a href="{{ route('edit.comment', $comment) }}">Edit</a></small>
-                                    @endcan
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @endforeach   
-            @endif         
-        </div>
-    
-
-
+                </div>
+            @endforeach   
+        @endif         
+    </article>
 @empty
     No comments
 @endforelse

@@ -42,7 +42,8 @@ class PostController extends Controller
             'body' => 'required|min:1|max:200',
             'source' => 'required|url'
         ]);
-        $request->user()->posts()->update([
+
+        $post->update([
             'body' => $request->body,
             'source' => $request->source
         ]);

@@ -57,15 +57,12 @@ Route::group(['middleware' => ['auth']], function () {
 
     /* Posts actions */
     Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
-
     Route::post('/createPost', [CreatePostController::class, 'store']);
-
     Route::get('/post/{id}', [PostController::class, 'singlePost'])->name('posts.single');
     Route::get('/post/edit/{post}', [PostController::class, 'editpost'])->name('posts.edit');
     Route::post('/post/edit/{post}', [PostController::class, 'updatePost']);
-
     Route::post('/post/{id}', [CommentController::class, 'store']);
-    Route::post('/post/comment/update/{id}', [CommentController::class, 'commentUpdate'])->name('update.comment');
+    Route::post('/post/comment/update/{comment}', [CommentController::class, 'commentUpdate'])->name('update.comment');
     Route::get('/post/editComment/{comment}',  [CommentController::class, 'edit'])->name('edit.comment');
     Route::get('/comment/{comment}/reply', [CommentController::class, 'reply'])->name('reply');
     Route::post('/comment/{comment}/reply', [CommentController::class, 'replyStore']);

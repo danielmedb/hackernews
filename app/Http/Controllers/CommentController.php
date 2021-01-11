@@ -16,12 +16,13 @@ class CommentController extends Controller
         $this->middleware(['auth']);
     }
 
-    public function commentUpdate(Request $request)
+    public function commentUpdate(Request $request, Comment $comment)
     {
         $this->validate($request, [
             'comment' => 'required|min:1'
         ]);
-        $request->user()->comments()->update([
+
+        $comment->update([
             'comment' => $request->comment
         ]);
         return back();
