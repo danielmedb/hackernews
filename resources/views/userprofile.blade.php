@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+            <div class="col-12 col-lg-12 col-md-12 col-xl-12 mx-auto">
                 <div class="my-4">
                     <ul class="nav nav-tabs mb-4" id="userprofile" role="tablist">
                         <li class="nav-item">
@@ -21,6 +21,7 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="profile" role="tab" aria-labelledby="profile-tab">
+                            
                             <div class="row mt-5">
                                 <div class="col-md-6 text-center mb-5">
                                     <div class="avatar avatar-xl">
@@ -95,151 +96,80 @@
                             </div>
                             <button type="submit" class="btn btn-primary">Save Change</button>
                         </div>
-                        <div class="tab-pane fade" id="posts" role="tab" aria-labelledby="posts-tab"></div>
-                        <div class="tab-pane fade" id="comments" role="tab" aria-labelledby="comments-tab"></div>
-                        <div class="tab-pane fade" id="votes" role="tab" aria-labelledby="votes-tab"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-
-    {{-- <div class="col-md-9 pr-0">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>Your Profile</h4>
-                        <hr>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
+                        <div class="tab-pane fade" id="posts" role="tab" aria-labelledby="posts-tab">
+                            <table class="table table-hover">
+                                <thead style="white-space: nowrap;">
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Creator</th>
+                                    <th>Source</th>
+                                    <th>Created date</th>
+                                </thead>
+                                @foreach($info->posts AS $post)
+                                    <tr>
+                                        <td>
+                                            <a href="{{ route('posts.edit', $post) }}"> 
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>{{ $post->body }}</td>
+                                        <td>{{ $post->user->name }}</td>
+                                        <td>{{ $post->source }}</td>
+                                        <td>{{ $post->created_at->format('Y-m-d') }}</td>
+                                    </tr>
                                 @endforeach
-                            </ul>
+                            </table>
                         </div>
-                    @endif        
-                    @if (session('credentials'))
-                        <div class="alert alert-success">
-                            {{ session('credentials') }}
+                        <div class="tab-pane fade" id="comments" role="tab" aria-labelledby="comments-tab">
+                            <table class="table table-hover">
+                                <thead style="white-space: nowrap;">
+                                    <th>#</th>
+                                    <th>Creator</th>
+                                    <th>Comment</th>
+                                    <th>Post</th>
+                                    <th>Created date</th>
+                                </thead>
+                                @foreach($info->comments AS $comment)
+                                    <tr>
+                                        <td>
+                                            <a href="{{ route('posts.edit', $comment) }}"> 
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>{{ $post->user->name }}</td>
+                                        <td>{{ $comment->comment }}</td>
+                                        <td>{{ $comment->post->body }}</td>
+                                        <td>{{ $comment->created_at->format('Y-m-d') }}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
                         </div>
-                    @endif                
-                        <form method="post" action="{{ route('userprofile.store', $user) }}">
-                            @csrf
-                            <div class="form-group row">
-                                <label for="username" class="col-4 col-form-label">Username</label>
-                                <div class="col-8">
-                                    <input id="name" name="name" value="{{ $user->name }}" placeholder="Username" class="form-control here" required="required" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="email" class="col-4 col-form-label">Email</label>
-                                <div class="col-8">
-                                    <input id="email" name="email" placeholder="Email" value="{{ $user->email }}" class="form-control here" required="required" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="biography" class="col-4 col-form-label">Biography</label>
-                                <div class="col-8">
-                                    <textarea id="biography" name="biography" cols="40" rows="4" class="form-control" >{{ $user->biography }}</textarea>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-4 col-8">
-                                    <button name="submit" type="submit" class="btn btn-primary">Update my profile</button>
-                                </div>
-                            </div>
-                        </form>
-                        <form action="{{ route('userprofile.image.upload', $user) }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            
-                            <div class="form-group row mt-5">
-                                <label for="image" class="col-4 col-form-label">Update profile picture</label>
-                                <div class="col-8">
-                                    <input type="file" name="image" class="form-control p-0" style="border: 0px;">
-                                </div>
-                     
-                                <div class="offset-4 col-8 mt-1">
-                                    <button type="submit" class="btn btn-success">Upload</button>
-                                </div>
-                     
-                            </div>
-                        </form>
+                        <div class="tab-pane fade" id="votes" role="tab" aria-labelledby="votes-tab">
+                            <table class="table table-hover">
+                                <thead style="white-space: nowrap;">
+                                    <th>#</th>
+                                    <th>Creator</th>
+                                    <th>Post</th>
+                                    <th>Created date</th>
+                                </thead>
+                                @foreach($info->vote AS $vote)
+                                    <tr>
+                                        <td>
+                                            <a href="{{ route('posts.single', $vote) }}"> 
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>{{ $vote->user->name }}</td>
+                                        <td>{{ $vote->post->body }}</td>
+                                        <td>{{ $vote->created_at->format('Y-m-d') }}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
-        <div class="card mt-5">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>Change password</h4>
-                        <hr>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        <form method="post" action="{{ route('userprofile.password', $user) }}">
-                            @csrf
-                            <div class="form-group row">
-                                <label for="password" class="col-4 col-form-label">New Password</label>
-                                <div class="col-8">
-                                    <input id="password" name="password" placeholder="New Password" class="form-control here" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-4 col-8">
-                                    <button name="submit" type="submit" class="btn btn-primary">Change password</button>
-                                </div>
-                            </div>
-                          
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>        
-        <div class="card mt-5">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>Delete my account</h4>
-                        <hr>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        @can('deleteUser', $user)
-                        <form method="post" action="{{ route('userprofile.user.delete', $user) }}">
-                            @csrf
-                            <div class="form-group row">
-                                    <button name="submit" type="submit" class="btn btn-danger ml-3">Delete my account, This action cannot be undon!</button>
-                                </div>
-                            </div>
-                        </form>
-                        @endcan
-                    </div>
-                </div>
-
-            </div>
-        </div>                
     </div>
-</div> --}}
 @endsection
 

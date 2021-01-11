@@ -19,12 +19,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // User::factory(10)->create();
+        User::factory(10)->create();
 
-        $user = User::factory(100)
-            ->has(Post::factory()->count(1))
-            ->has(Comment::factory()->count(1))
-            ->has(Vote::factory()->count(1))
-            ->create();
+        // $user = User::factory(100)
+        //     ->has(Post::factory()->count(1))
+        //     ->has(Comment::factory()->count(1))
+        //     ->has(Vote::factory()->count(1))
+        //     ->create();
+
+        // $this->call(UserSeeder::class);
+        // $this->call(PostSeeder::class);
+        // $this->call(CommentSeeder::class);
     }
 }

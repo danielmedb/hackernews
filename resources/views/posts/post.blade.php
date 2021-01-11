@@ -5,8 +5,25 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-<span class="upvote mr-2"><img src="{{ asset('images/arrow_up.png') }}" style="width: 10px;" /></span><span class="">{{ $post->body }}</span>
+<span class="upvote mr-2">
+    @if(!$post->likedBy(auth()->user() ))
+    <form method="post" action="{{ route('posts.likes', $post) }}">
+        @csrf
+        <button class="btn-vote" name="vote" value="up" style="background-color: #f7fafc"><img src="{{ asset('images/arrow_up.png') }}" style="width: 10px;" /></button>
+    </form>
+    @else
+    <form method="post" action="{{ route('posts.likes', $post) }}">
+        @csrf
+        @method('DELETE')
+        <button class="btn-vote" name="vote" value="down" style="background-color: #f7fafc"><img src="{{ asset('images/arrow_up.png') }}" class="rotateimg180" style="width: 10px;" /></button>
+        
+    </form>
+    @endif    
+<span class="">{{ $post->body }}</span>
 <small>Created by: {{ $post->user->name}}</small>
+
+
+<small> | {{ $post->votes->count()  }} {{ Str::plural('vote', $post->votes->count())  }} </small>
 
 <form method="post">
     @csrf
@@ -17,7 +34,7 @@
     </div>
     <div class="form-group row">
         <div class="col-8">
-            <button name="submit" type="submit" class="btn btn-light btn-sm">Add comment</button>
+            <button name="submit" type="submit" class="btn btn-dark btn-sm">Add comment</button>
         </div>
     </div>
 </form>
@@ -40,57 +57,39 @@
                             <small>{{ $comment->created_at->diffForHumans() }}</small>
                             
                             @if(Auth::user()->id === $comment->user->id)
-                            <div class="btn-group">
                                 @can('editcomment', $comment)
-                                    <button class="btn btn-default btn-xs btn-editComment" data-edit="{{ $comment->id }}" type="submit">Edit</button> 
+                                    <small>| <a href="{{ route('edit.comment', $comment) }}">Edit</a></small>
                                 @endcan
-                                @can('deletecomment', $comment)
-                                    <form method="post" action="{{ route('deletecomment', $comment) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-default btn-xs" type="submit">Delete</button>
-                                    </form>
-                                @endcan
-                            </div>
                             @endif
                         </div>
                     </div>
             </div>
             @if ( $comment->replies )
-            @foreach($comment->replies as $reply)
-            <div class="col-md-12 ml-5">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="user d-flex flex-row align-items-center postcomment" data-comment='{{ $reply->id }}'>
-                        <span>
-                            {{ $reply->comment }}
-                        </span>
-                    </div>
-                </div>
-                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                    <div class="reply">
-                        <small>{{ $reply->user->name }} |</small>
-                        <small>{{ $reply->created_at->diffForHumans() }}</small>
-                        @if(Auth::user()->id === $reply->user->id)
-                        <div class="btn-group">
-                            @can('editcomment', $reply)
-                                <button class="btn btn-default btn-xs btn-editComment" data-edit="{{ $reply->id }}" type="submit">Edit</button> 
-                            @endcan
-                            @can('deletecomment', $reply)
-                                <form method="post" action="{{ route('deletecomment', $reply) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-default btn-xs" type="submit">Delete</button>
-                                </form>
-                            @endcan
+                @foreach($comment->replies as $reply)
+                    <div class="col-md-12 ml-5">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="user d-flex flex-row align-items-center postcomment" data-comment='{{ $reply->id }}'>
+                                <span>
+                                    {{ $reply->comment }}
+                                </span>
+                            </div>
                         </div>
-                        @endif
+                        <div class="action d-flex justify-content-between mt-2 align-items-center">
+                            <div class="reply">
+                                <small>{{ $reply->user->name }} |</small>
+                                <small>{{ $reply->created_at->diffForHumans() }}</small>
+                                @if(Auth::user()->id === $reply->user->id)
+                                    @can('editcomment', $reply)
+                                        <small><a href="{{ route('edit.comment', $comment) }}">Edit</a></small>
+                                    @endcan
+                                @endif
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endforeach   
+            @endif         
         </div>
-            @endforeach            
-        </div>
-
-    @endif
+    
 
 
 @empty

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -20,8 +21,10 @@ class UserProfileController extends Controller
     public function index()
     {
         $user = User::findOrFail(auth()->id());
+        $info = User::with(['comments', 'posts', 'vote'])->findOrFail(auth()->id());
         return view('userprofile', [
             'user' => $user,
+            'info' => $info
         ]);
     }
 

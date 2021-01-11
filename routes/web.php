@@ -60,13 +60,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/createPost', [CreatePostController::class, 'store']);
 
-    Route::get('/post/{id}', [PostController::class, 'singlePost']);
-    Route::get('/post/edit/{post}', [PostController::class, 'editpost']);
-    Route::post('/post/edit/{post}', [PostController::class, 'updatePost'])->name('posts.edit');
+    Route::get('/post/{id}', [PostController::class, 'singlePost'])->name('posts.single');
+    Route::get('/post/edit/{post}', [PostController::class, 'editpost'])->name('posts.edit');
+    Route::post('/post/edit/{post}', [PostController::class, 'updatePost']);
 
     Route::post('/post/{id}', [CommentController::class, 'store']);
-    Route::post('/post/comment/update/{id}', [CommentController::class, 'commentUpdate']);
-    Route::post('/post/editComment/{id}',  [CommentController::class, 'edit'])->name('editcomment');
+    Route::post('/post/comment/update/{id}', [CommentController::class, 'commentUpdate'])->name('update.comment');
+    Route::get('/post/editComment/{comment}',  [CommentController::class, 'edit'])->name('edit.comment');
     Route::get('/comment/{comment}/reply', [CommentController::class, 'reply'])->name('reply');
     Route::post('/comment/{comment}/reply', [CommentController::class, 'replyStore']);
 

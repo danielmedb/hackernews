@@ -41,6 +41,16 @@ class CommentController extends Controller
         return back();
     }
 
+    public function edit(Comment $comment)
+    {
+        return view(
+            'posts.editComment',
+            [
+                'comment' => $comment
+            ]
+        );
+    }
+
     public function destroy(Comment $comment)
     {
         $this->authorize('deleteComment', $comment);
@@ -52,7 +62,6 @@ class CommentController extends Controller
     {
         $comment = Comment::find($comment->id);
         $post = Post::find($comment->post_id);
-        $user = User::find($comment->user_id);
 
         return view('posts.reply', [
             'comment' => $comment,

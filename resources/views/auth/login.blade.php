@@ -36,5 +36,7 @@
         </div>
     </div>
   </div>
-
+<script>
+  passwordReset();
+</script>
 @endsection

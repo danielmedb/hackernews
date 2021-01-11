@@ -1,8 +1,6 @@
 const editComment = document.querySelectorAll(".btn-editComment");
 
 
-const token = document.querySelector('meta[name="csrf-token"]').content;
-
 editComment.forEach((button) => {
     button.addEventListener('click', function(e){
         e.preventDefault();
@@ -19,22 +17,10 @@ editComment.forEach((button) => {
     });
 });
 
-// const resetpassword = document.querySelector(".resetpassword");
-// resetpassword.addEventListener('click', () => {
-//     document.querySelector('.form_resetpassword').style.display = 'block';
-// });
-
-
-let triggerTabList = [].slice.call(document.querySelectorAll('#userprofile a'));
-triggerTabList.forEach(function (triggerEl) {
-    let tabTrigger = new bootstrap.Tab(triggerEl);
-    triggerEl.addEventListener('click', function (event) {
-        const page = event.srcElement.innerText.toLowerCase();
-        console.log(page);
-        console.log(document.querySelector(`#${page}`));
-        
-        document.querySelector(`#${page}`).load('@include("userprofile.post")');
-        event.preventDefault();
-        tabTrigger.show();
+function passwordReset(){
+    const resetpassword = document.querySelector(".resetpassword");
+    resetpassword.addEventListener('click', () => {
+        document.querySelector('.form_resetpassword').style.display = 'block';
     });
-});
+}
+
