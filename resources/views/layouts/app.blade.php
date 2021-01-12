@@ -38,7 +38,7 @@
                                 <a class="nav-link" href="">Hacker news</a> 
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ Request::route()->getName() == 'posts' ? 'nav-link-active' : '' }}" href="{{ route('posts') }}">Latest</a>
+                                <a class="nav-link {{ Request::route()->getName() == 'posts.index' ? 'nav-link-active' : '' }}" href="{{ route('posts.index') }}">Latest</a>
                             </li>
                             <li class="nav-item">
                                
@@ -48,7 +48,7 @@
                                 <a class="nav-link {{ Request::route()->getName() == 'topComments' ? 'nav-link-active' : '' }}" href="{{ route('topComments') }}">Comments</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ Request::route()->getName() == 'createpost' ? 'nav-link-active' : '' }}" href="{{ route('createpost') }}">Submit</a>
+                                <a class="nav-link {{ Request::route()->getName() == 'posts.create' ? 'nav-link-active' : '' }}" href="{{ route('posts.create') }}">Submit</a>
                             </li>
                         </ul>
                         <div class="mobile-nav-user">

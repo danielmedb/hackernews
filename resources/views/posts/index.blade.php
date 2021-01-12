@@ -21,14 +21,14 @@
         
         </div>
         
-        <div class="title col-10 pl-0"><a href="/post/{{$post->id}}">{{ $post->body }}</a>
+        <div class="title col-10 pl-0"><a href="{{ $post->source }}">{{ $post->body }}</a>
             <span class="text-muted small">( {{ $post->source }})</span>
         </div>
         <div class="col-12 under text-muted small pl-4"> 
             {{ $post->votes->count()  }} 
             {{ Str::plural('vote', $post->votes->count())  }} 
             | By {{ $post->user->name }} {{ $post->created_at->diffForHumans() }} 
-            | <a href="/post/{{$post->id}}">
+            | <a href="{{ route('posts.show', $post) }}">
                 {{ $post->comments->count() }} {{ Str::plural('comment', $post->comments->count()) }}
             </a>
             @can('editPost', $post)

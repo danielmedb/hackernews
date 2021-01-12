@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Rules\MatchOldPassword;
 
 class UserProfileController extends Controller
 {
@@ -46,14 +47,20 @@ class UserProfileController extends Controller
             'name' => [
                 'required',
                 Rule::unique('users')->ignore($user->id),
-            ]
+            ],
+            'biograhpy' => 'max:300',
+            'new_password' => 'nullable|min:6',
+            'confirm_password' => 'same:new_password'
+
         ]);
 
-        $request->user()->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'biography' => $request->biography
-        ]);
+        $request->user()->update($request->all());
+
+        // $request->user()->update([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'biography' => $request->biography
+        // ]);
 
         return back()->with('credentials', 'Your credentials has been updated.');
     }

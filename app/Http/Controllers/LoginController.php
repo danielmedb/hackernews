@@ -30,6 +30,6 @@ class LoginController extends Controller
             return back()->withInput()->withstatus('Incorrect login details!');
         }
 
-        return redirect()->route('posts');
+        return redirect()->route('posts.index');
     }
 }

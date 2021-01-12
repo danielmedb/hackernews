@@ -5,6 +5,7 @@ use App\Http\Controllers\NewPostsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CreatePostController;
@@ -42,28 +43,33 @@ Route::post('/resetpassword/update/{token}', [ResetPasswordController::class, 'u
 /* Logged in users only! */
 Route::group(['middleware' => ['auth']], function () {
 
-    /* Pages */
-    Route::get('/posts', [PostController::class, 'index'])->name('posts');
-    Route::get('/top', [PostController::class, 'topVotedPosts'])->name('topVotes');
-    Route::get('/comment', [PostController::class, 'mostComments'])->name('topComments');
-    Route::get('/createPost', [CreatePostController::class, 'index'])->name('createpost');
+    /* Pagecontroller */
+    Route::get('/top', [PageController::class, 'mostVotes'])->name('topVotes');
+    Route::get('/comment', [PageController::class, 'mostComments'])->name('topComments');
+    // Route::get('/post/{id}', [PageController::class, 'post'])->name('post');
+
+
+
+    Route::resource('posts', PostController::class);
+    Route::resource('posts.comments', CommentController::class);
+    // Route::resource('posts.likes', VoteController::class);
+    // Route::resource('posts.comments', CommentController::class)->shallow();
+
     Route::get('/user', [UserProfileController::class, 'index'])->name('userprofile');
+    /* Pages */
+
 
     /* Delete actions */
-    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
     Route::delete('/post/{post}/likes',  [VoteController::class, 'destroy']);
-    Route::delete('/post/deleteComment/{comment}',  [CommentController::class, 'destroy'])->name('deletecomment');
-    Route::post('/user/delete/{user}', [UserProfileController::class, 'deleteuser'])->name('userprofile.user.delete');
+    // Route::delete('/post/deleteComment/{comment}',  [CommentController::class, 'destroy'])->name('deletecomment');
+    // Route::post('/user/delete/{user}', [UserProfileController::class, 'deleteuser'])->name('userprofile.user.delete');
+
 
     /* Posts actions */
     Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
-    Route::post('/createPost', [CreatePostController::class, 'store']);
-    Route::get('/post/{id}', [PostController::class, 'singlePost'])->name('posts.single');
-    Route::get('/post/edit/{post}', [PostController::class, 'editpost'])->name('posts.edit');
-    Route::post('/post/edit/{post}', [PostController::class, 'updatePost']);
-    Route::post('/post/{id}', [CommentController::class, 'store']);
-    Route::post('/post/comment/update/{comment}', [CommentController::class, 'commentUpdate'])->name('update.comment');
-    Route::get('/post/editComment/{comment}',  [CommentController::class, 'edit'])->name('edit.comment');
+    // Route::post('/post/{id}', [CommentController::class, 'store']);
+    // Route::post('/post/comment/update/{comment}', [CommentController::class, 'commentUpdate'])->name('update.comment');
+    // Route::get('/post/editComment/{comment}',  [CommentController::class, 'edit'])->name('edit.comment');
     Route::get('/comment/{comment}/reply', [CommentController::class, 'reply'])->name('reply');
     Route::post('/comment/{comment}/reply', [CommentController::class, 'replyStore']);
 

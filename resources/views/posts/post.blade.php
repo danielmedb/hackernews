@@ -25,7 +25,7 @@
 
 <small> | {{ $post->votes->count()  }} {{ Str::plural('vote', $post->votes->count())  }} </small>
 
-<form method="post">
+<form method="post" action="{{ route('posts.comments.store', $post) }}">
     @csrf
     <div class="form-group row">
         <div class="col-lg-6 col-md-10 col-sm-12">
@@ -33,11 +33,15 @@
         </div>
     </div>
     <div class="form-group row">
-        <div class="col-8">
+        <div class="col-6">
             <button name="submit" type="submit" class="btn btn-dark btn-sm">Add comment</button>
         </div>
     </div>
 </form>
+@if (session('success'))
+<div class="col-lg-6 col-md-10 col-sm-12 resetmessage alert alert-success mt-3">{{ session('success') }}</div>
+@endif  
+
 
 @forelse($comments as $comment)
     <article class="row d-flex justify-content-center mt-2">
@@ -57,7 +61,7 @@
                         
                         @if(Auth::user()->id === $comment->user->id)
                             @can('editcomment', $comment)
-                                <small>| <a href="{{ route('edit.comment', $comment) }}">Edit</a></small>
+                                <small>| <a href="{{ route('posts.comments.edit', [$post, $comment]) }}">Edit</a></small>
                             @endcan
                         @endif
                     </div>
@@ -79,7 +83,7 @@
                             <small>{{ $reply->created_at->diffForHumans() }}</small>
                             @if(Auth::user()->id === $reply->user->id)
                                 @can('editcomment', $reply)
-                                    <small> | <a href="{{ route('edit.comment', $reply) }}">Edit</a></small>
+                                    {{-- <small> | <a href="{{ route('edit.comment', $reply) }}">Edit</a></small> --}}
                                 @endcan
                             @endif
                         </div>

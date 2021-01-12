@@ -43,6 +43,9 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(session('credentials'))
+                                <div class="alert alert-success"> {{ session('credentials') }}</div>
+                            @endif
                             <hr class="my-4" />
                             <form method="post" action="{{ route('userprofile.store', $user) }}">
                                 @csrf
@@ -64,16 +67,12 @@
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="oldpassword">Old Password</label>
-                                        <input type="password" class="form-control" id="oldpassword" />
-                                    </div>
-                                    <div class="form-group">
                                         <label for="password">New Password</label>
-                                        <input type="password" class="form-control" id="password" />
+                                        <input type="password" class="form-control" id="newpassword" name="new_password" />
                                     </div>
                                     <div class="form-group">
                                         <label for="confirmpassword">Confirm Password</label>
-                                        <input type="password" class="form-control" id="confirmpassword" />
+                                        <input type="password" class="form-control" id="confirmpassword" name="confirm_password" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -155,7 +154,7 @@
                                 @foreach($info->vote AS $vote)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('posts.single', $vote) }}"> 
+                                            <a href="{{ route('posts.show', $vote->post->id) }}"> 
                                                 <i class="far fa-edit"></i>
                                             </a>
                                         </td>
