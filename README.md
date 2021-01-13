@@ -14,7 +14,4 @@ php artisan serve
 
 ## Tested By
 
-## License
-
-
 
