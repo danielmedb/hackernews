@@ -49,13 +49,21 @@ class UserProfileController extends Controller
                 Rule::unique('users')->ignore($user->id),
             ],
             'biograhpy' => 'max:300',
-            'new_password' => 'nullable|min:6',
-            'confirm_password' => 'same:new_password'
+            'password' => 'nullable|min:6',
+            'confirm_password' => 'same:password'
 
         ]);
-
+        if ($request->password != null) {
+            $password = Hash::make($request->password);
+            $request->request->add(['password' => $password]);
+        }
+        // dd($request->all());
         $request->user()->update($request->all());
-
+        // if ($request->password != null) {
+        //     $password = Hash::make($request->password);
+        //     $request->request->add(['password' => $password]);
+        // }
+        // dd($request->all());
         // $request->user()->update([
         //     'name' => $request->name,
         //     'email' => $request->email,
