@@ -1,12 +1,13 @@
 @extends('layouts.app')
 @section('content')
 
+
 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-5">
+    <a class="btn btn-sm btn-group-sm btn-secondary ml-3 mb-3" href="{{ route('posts.show', $post) }}">Back to post</a>
     <form action="{{ route('posts.comments.update', [$post, $comment]) }}" method="post" class="" style="display: inline;">
         @csrf
         @method('PUT')
         <div class="form-group col-12">
-            <label for="body">Comment</label>
             <textarea class="form-control" cols="20" rows="5" id="comment" name="comment" placeholder="Comment">{{ $comment->comment }}</textarea>
         </div>
         <button type="submit" class="btn btn-group-sm btn-info ml-3">Update comment</button>

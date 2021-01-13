@@ -65,20 +65,21 @@ class UserProfileController extends Controller
         return back()->with('credentials', 'Your credentials has been updated.');
     }
 
-    public function changepassword(Request $request, User $user)
-    {
-        $this->authorize('editProfile', $user);
-        $this->validate($request, [
-            'password' => 'required|min:6'
-        ]);
-        $request->user()->update([
-            'password' => Hash::make($request->password)
-        ]);
-        return back()->with('status', 'Password has been updated');
-    }
+    // public function changepassword(Request $request, User $user)
+    // {
+    //     $this->authorize('editProfile', $user);
+    //     $this->validate($request, [
+    //         'password' => 'required|min:6'
+    //     ]);
+    //     $request->user()->update([
+    //         'password' => Hash::make($request->password)
+    //     ]);
+    //     return back()->with('status', 'Password has been updated');
+    // }
 
     public function profileimageupdate(Request $request, User $user)
     {
+
         $this->authorize('editProfile', $user);
 
         $this->validate($request, [
@@ -88,7 +89,7 @@ class UserProfileController extends Controller
         $randomNumber = rand(1, 20000000000);
         $imageName = $randomNumber . '.' . $request->image->extension();
 
-        $request->image->move(public_path('images/'), $imageName);
+        $request->image->move(public_path('images/users'), $imageName);
 
         $request->user()->update([
             'profileimage' => $imageName

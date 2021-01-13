@@ -23,10 +23,8 @@
         </div>
     </div>
 
-    <form method="post">
+    <form method="post" action="{{ route('reply.store', $comment) }}">
         @csrf
-        <input type="hidden" name="replyTo" value="{{ $comment->post->id  }}" />
-        <input type="hidden" name="postId" value="{{ $comment->post_id  }}" />
         <div class="form-group row">
             <div class="col-6">
                 <textarea id="comment" name="comment" cols="40" rows="4" class="form-control"></textarea>
@@ -34,7 +32,8 @@
         </div>
         <div class="form-group row">
             <div class="col-8">
-                <button name="submit" type="submit" class="btn btn-light btn-sm">Reply</button>
+                <button name="submit" type="submit" class="btn btn-dark pl-3 pr-3">Reply</button>
+                <a href="{{ route('posts.show', $post) }}" class="btn btn-info ml-3">Back to post</a>
             </div>
         </div>
     </form>

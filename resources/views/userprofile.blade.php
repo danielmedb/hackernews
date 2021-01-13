@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+
+<style>
+    .changeProfilePicture{
+        height: inherit;
+        display: inline;
+        position: absolute;
+        bottom: 0;
+        left: calc(50% - 20px);
+    }
+</style>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-12 col-md-12 col-xl-12 mx-auto">
@@ -25,7 +35,10 @@
                             <div class="row mt-5">
                                 <div class="col-md-6 text-center mb-5">
                                     <div class="avatar avatar-xl">
-                                        <img src="{{ $user->profileimage ? asset('images/'.$user->profileimage.'') : asset('images/nopic.png') }}" alt="..." class="avatar-img rounded-circle" />
+                                        <img src="{{ $user->profileimage ? asset('images/users/'.$user->profileimage.'') : asset('images/users/nopic.png') }}" alt="..." class="avatar-img rounded-circle" />
+                                    </div>
+                                    <div class="changeProfilePicture">
+                                        <i class="fas fa-3x fa-images" data-toggle="modal" data-target="#exampleModal"></i>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -49,51 +62,52 @@
                             <hr class="my-4" />
                             <form method="post" action="{{ route('userprofile.store', $user) }}">
                                 @csrf
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="name">Displayname</label>
-                                    <input type="text" id="name" name="name" class="form-control" value="{{ $user->name }}" required="required" />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" class="form-control" value="{{ $user->email }}" required="required" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="biography">Biography</label>
-                                <textarea id="biography" name="biography" cols="40" rows="4" class="form-control" >{{ $user->biography }}</textarea>  
-                            </div>
-                            <hr class="my-4" />
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="password">New Password</label>
-                                        <input type="password" class="form-control" id="newpassword" name="new_password" />
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Displayname</label>
+                                        <input type="text" id="name" name="name" class="form-control" value="{{ $user->name }}" required="required" />
                                     </div>
-                                    <div class="form-group">
-                                        <label for="confirmpassword">Confirm Password</label>
-                                        <input type="password" class="form-control" id="confirmpassword" name="confirm_password" />
+                                    <div class="form-group col-md-6">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" name="email" class="form-control" value="{{ $user->email }}" required="required" />
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <p class="mb-2">Password requirements</p>
-                                    <p class="small text-muted mb-2">To create a new password, you have to meet all of the following requirements:</p>
-                                    <ul class="small text-muted pl-4 mb-0">
-                                        <li>Minimum 6 character</li>
-                                        <li>Can’t be the same as a previous password</li>
-                                    </ul>
-                                    @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
+                                <div class="form-group">
+                                    <label for="biography">Biography</label>
+                                    <textarea id="biography" name="biography" cols="40" rows="4" class="form-control" >{{ $user->biography }}</textarea>  
+                                </div>
+                                <hr class="my-4" />
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="password">New Password</label>
+                                            <input type="password" class="form-control" id="newpassword" name="new_password" />
                                         </div>
-                                    @endif                                
+                                        <div class="form-group">
+                                            <label for="confirmpassword">Confirm Password</label>
+                                            <input type="password" class="form-control" id="confirmpassword" name="confirm_password" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-2">Password requirements</p>
+                                        <p class="small text-muted mb-2">To create a new password, you have to meet all of the following requirements:</p>
+                                        <ul class="small text-muted pl-4 mb-0">
+                                            <li>Minimum 6 character</li>
+                                            <li>Can’t be the same as a previous password</li>
+                                        </ul>
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif                                
+                                    </div>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save Change</button>
+                                <button type="submit" class="btn btn-primary">Save Change</button>
+                            </form>
                         </div>
                         <div class="tab-pane fade" id="posts" role="tab" aria-labelledby="posts-tab">
                             <table class="table table-hover">
@@ -170,5 +184,30 @@
             </div>
         </div>
     </div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change profile image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form role="form" enctype="multipart/form-data" action="{{ route('userprofile.image.upload', $user) }}" method="POST">
+                <div class="modal-body">
+                    @csrf
+                    <input type="file" name="image">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @endsection
 

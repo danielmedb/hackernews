@@ -3,27 +3,29 @@
 @section('content')
 
 
+
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <span class="upvote mr-2">
     @if(!$post->likedBy(auth()->user() ))
-    <form method="post" action="{{ route('posts.likes', $post) }}">
+    <form method="post" action="{{ route('posts.likes', $post) }}" style="display: inline;">
         @csrf
         <button class="btn-vote" name="vote" value="up" style="background-color: #f7fafc"><img src="{{ asset('images/arrow_up.png') }}" style="width: 10px;" /></button>
     </form>
     @else
-    <form method="post" action="{{ route('posts.likes', $post) }}">
+    <form method="post" action="{{ route('posts.likes', $post) }}" style="display: inline;">
         @csrf
         @method('DELETE')
         <button class="btn-vote" name="vote" value="down" style="background-color: #f7fafc"><img src="{{ asset('images/arrow_up.png') }}" class="rotateimg180" style="width: 10px;" /></button>
         
     </form>
     @endif    
+    <small> {{ $post->votes->count()  }} {{ Str::plural('vote', $post->votes->count())  }}  | </small>
 <span class="">{{ $post->body }}</span>
 <small>Created by: {{ $post->user->name}}</small>
 
 
-<small> | {{ $post->votes->count()  }} {{ Str::plural('vote', $post->votes->count())  }} </small>
+
 
 <form method="post" action="{{ route('posts.comments.store', $post) }}">
     @csrf
@@ -83,7 +85,7 @@
                             <small>{{ $reply->created_at->diffForHumans() }}</small>
                             @if(Auth::user()->id === $reply->user->id)
                                 @can('editcomment', $reply)
-                                    {{-- <small> | <a href="{{ route('edit.comment', $reply) }}">Edit</a></small> --}}
+                                    <small>| <a href="{{ route('posts.comments.edit', [$post, $reply]) }}">Edit</a></small>
                                 @endcan
                             @endif
                         </div>

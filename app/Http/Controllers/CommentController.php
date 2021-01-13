@@ -99,7 +99,42 @@ class CommentController extends Controller
     public function destroy(Post $post, Comment $comment)
     {
         $this->authorize('deleteComment', $comment);
+
+        /* Delete all comments only if its the original post. Not an reply. */
+        if ($comment->reply_to == null) {
+            Comment::where('post_id', $post->id)->delete();
+        }
+
         $comment->delete();
+
         return redirect()->route('posts.show', $post)->with('success', 'Comment was successfully deleted');
+    }
+
+    public function reply(Comment $comment)
+    {
+        $comment = Comment::find($comment->id);
+        $post = Post::find($comment->post_id);
+
+        return view('posts.reply', [
+            'comment' => $comment,
+            'post' => $post
+        ]);
+    }
+
+
+    public function replyStore(Request $request, Comment $comment)
+    {
+        $this->validate($request, [
+            'comment' => 'required|min:1'
+        ]);
+
+        $request->user()->comments()->create(
+            [
+                'comment' => $request->comment,
+                'post_id' => $comment->post_id,
+                'reply_to' => $comment->id
+            ]
+        );
+        return redirect()->route('posts.show', $comment->post_id);
     }
 }

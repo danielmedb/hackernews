@@ -6,4 +6,3 @@ function passwordReset(){
         document.querySelector('.form_resetpassword').style.display = 'block';
     });
 }
-

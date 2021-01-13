@@ -25,9 +25,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-/* Login, logout, register, reset */
+/* Login,  register, reset */
 
-Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 
@@ -43,35 +42,26 @@ Route::post('/resetpassword/update/{token}', [ResetPasswordController::class, 'u
 /* Logged in users only! */
 Route::group(['middleware' => ['auth']], function () {
 
+    Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
+
     /* Pagecontroller */
     Route::get('/top', [PageController::class, 'mostVotes'])->name('topVotes');
     Route::get('/comment', [PageController::class, 'mostComments'])->name('topComments');
-    // Route::get('/post/{id}', [PageController::class, 'post'])->name('post');
-
-
 
     Route::resource('posts', PostController::class);
     Route::resource('posts.comments', CommentController::class);
-    // Route::resource('posts.likes', VoteController::class);
-    // Route::resource('posts.comments', CommentController::class)->shallow();
 
-    Route::get('/user', [UserProfileController::class, 'index'])->name('userprofile');
     /* Pages */
+    Route::get('/user', [UserProfileController::class, 'index'])->name('userprofile');
 
 
     /* Delete actions */
     Route::delete('/post/{post}/likes',  [VoteController::class, 'destroy']);
-    // Route::delete('/post/deleteComment/{comment}',  [CommentController::class, 'destroy'])->name('deletecomment');
-    // Route::post('/user/delete/{user}', [UserProfileController::class, 'deleteuser'])->name('userprofile.user.delete');
-
 
     /* Posts actions */
     Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
-    // Route::post('/post/{id}', [CommentController::class, 'store']);
-    // Route::post('/post/comment/update/{comment}', [CommentController::class, 'commentUpdate'])->name('update.comment');
-    // Route::get('/post/editComment/{comment}',  [CommentController::class, 'edit'])->name('edit.comment');
     Route::get('/comment/{comment}/reply', [CommentController::class, 'reply'])->name('reply');
-    Route::post('/comment/{comment}/reply', [CommentController::class, 'replyStore']);
+    Route::post('/comment/{comment}/reply', [CommentController::class, 'replyStore'])->name('reply.store');
 
     /* Userprofile */
     Route::get('/user/posts', [UserProfileController::class, 'usersposts'])->name('userspost');
