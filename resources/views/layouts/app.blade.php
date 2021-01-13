@@ -35,7 +35,7 @@
                     <div class="collapse navbar-collapse pl-2" id="navbarCollapse">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="">Hacker news</a> 
+                                <span class="nav-link">Hacker news</span> 
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ Request::route()->getName() == 'posts.index' ? 'nav-link-active' : '' }}" href="{{ route('posts.index') }}">Latest</a>
