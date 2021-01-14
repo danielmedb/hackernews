@@ -102,10 +102,10 @@ class CommentController extends Controller
 
         /* Delete all comments only if its the original post. Not an reply. */
         if ($comment->reply_to == null) {
-            Comment::where('post_id', $post->id)->delete();
+            Comment::where('id', $comment->id)->delete();
         }
 
-        $comment->delete();
+        $comment->delete($comment->id);
 
         return redirect()->route('posts.show', $post)->with('success', 'Comment was successfully deleted');
     }
