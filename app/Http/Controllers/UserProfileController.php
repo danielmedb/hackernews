@@ -48,7 +48,7 @@ class UserProfileController extends Controller
                 'required',
                 Rule::unique('users')->ignore($user->id),
             ],
-            'biograhpy' => 'max:300',
+            'biography' => 'max:300',
             'password' => 'nullable|min:6',
             'confirm_password' => 'same:password'
 
@@ -56,34 +56,16 @@ class UserProfileController extends Controller
         if ($request->password != null) {
             $password = Hash::make($request->password);
             $request->request->add(['password' => $password]);
+        } else {
+            $request->request->remove('password');
+            $request->request->remove('confirm_password');
         }
-        // dd($request->all());
+
         $request->user()->update($request->all());
-        // if ($request->password != null) {
-        //     $password = Hash::make($request->password);
-        //     $request->request->add(['password' => $password]);
-        // }
-        // dd($request->all());
-        // $request->user()->update([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-        //     'biography' => $request->biography
-        // ]);
+
 
         return back()->with('credentials', 'Your credentials has been updated.');
     }
-
-    // public function changepassword(Request $request, User $user)
-    // {
-    //     $this->authorize('editProfile', $user);
-    //     $this->validate($request, [
-    //         'password' => 'required|min:6'
-    //     ]);
-    //     $request->user()->update([
-    //         'password' => Hash::make($request->password)
-    //     ]);
-    //     return back()->with('status', 'Password has been updated');
-    // }
 
     public function profileimageupdate(Request $request, User $user)
     {

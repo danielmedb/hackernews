@@ -121,7 +121,7 @@
                                 @foreach($info->posts AS $post)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('posts.edit', $post) }}"> 
+                                            <a href="{{ route('posts.index', $post) }}"> 
                                                 <i class="far fa-edit"></i>
                                             </a>
                                         </td>
