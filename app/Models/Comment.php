@@ -37,4 +37,24 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'reply_to');
     }
+
+    public function commentLikes()
+    {
+        return $this->hasMany(CommentLike::class);
+    }
+
+    public function topCommentLikes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function likedBy(User $user)
+    {
+        return $this->commentLikes->contains('user_id', $user->id);
+    }
+
+    public function userVoted()
+    {
+        return $this->hasOneThrough(CommentLike::class, User::class, 'id', 'user_id');
+    }
 }

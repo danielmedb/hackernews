@@ -64,4 +64,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Vote::class);
     }
+
+    public function commentLike()
+    {
+        return $this->hasMany(CommentLike::class);
+    }
+
+    public function hasCommentLikes()
+    {
+        return $this->belongsTo(CommentLike::class);
+    }
 }
