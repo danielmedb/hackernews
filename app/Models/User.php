@@ -23,8 +23,10 @@ class User extends Authenticatable
         'password',
         'profileimage',
         'biography',
-        'password_token'
+        'password_token',
     ];
+
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -63,5 +65,20 @@ class User extends Authenticatable
     public function hasVotes()
     {
         return $this->belongsTo(Vote::class);
+    }
+
+    public function commentLike()
+    {
+        return $this->hasMany(CommentLike::class);
+    }
+
+    public function hasCommentLikes()
+    {
+        return $this->belongsTo(CommentLike::class);
+    }
+
+    public function following()
+    {
+        return $this->hasMany(Following::class);
     }
 }

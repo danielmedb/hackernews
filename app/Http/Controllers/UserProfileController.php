@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Following;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -97,5 +98,21 @@ class UserProfileController extends Controller
         $request->session()->invalidate();
 
         return redirect()->route('login')->with('deleteduser', 'All your information has been deleted.');
+    }
+
+    public function follow(Request $request, User $user)
+    {
+        $request->user()->following()->create([
+            'user_id'  => $request->user()->id,
+            'following_id' => $user->id,
+        ]);
+
+        return back();
+    }
+
+    public function unFollow(Request $request, User $user)
+    {
+        $request->user()->following()->where('following_id', $user->id)->delete();
+        return back();
     }
 }

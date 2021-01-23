@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Following;
 use App\Models\vote;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
@@ -25,6 +27,18 @@ class PageController extends Controller
 
         return view('posts.index', compact('posts'));
     }
+
+    /* Sort posts after the ones who the user follows */
+    public function following()
+    {
+        $following = Auth::user()->following;
+        $posts = $following->map(function ($item) {
+            return User::find($item["following_id"])->posts;
+        })->flatten();
+
+        return view('posts.index', compact('posts'));
+    }
+
 
     /* Show specific post */
     public function post($id)

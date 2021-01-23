@@ -8,6 +8,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\CreatePostController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\VoteController;
@@ -47,6 +48,8 @@ Route::group(['middleware' => ['auth']], function () {
     /* Pagecontroller */
     Route::get('/top', [PageController::class, 'mostVotes'])->name('topVotes');
     Route::get('/comment', [PageController::class, 'mostComments'])->name('topComments');
+    Route::get('/following', [PageController::class, 'following'])->name('following');
+
 
     Route::resource('posts', PostController::class);
     Route::resource('posts.comments', CommentController::class);
@@ -62,6 +65,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/post/{post}/likes',  [VoteController::class, 'store'])->name('posts.likes');
     Route::get('/comment/{comment}/reply', [CommentController::class, 'reply'])->name('reply');
     Route::post('/comment/{comment}/reply', [CommentController::class, 'replyStore'])->name('reply.store');
+
+    Route::post("/comment/{comment}/like", [CommentLikeController::class, "store"])->name("commentLike.store");
+    Route::delete("/comment/{comment}/like", [CommentLikeController::class, "destroy"])->name("commentLike.destroy");
+
+
+    Route::post("/posts/{user}/follow", [UserProfileController::class, "follow"])->name("user.follow");
+    Route::delete("/posts/{user}/follow", [UserProfileController::class, "unfollow"])->name("user.unfollow");
+
 
     /* Userprofile */
     Route::get('/user/posts', [UserProfileController::class, 'usersposts'])->name('userspost');
