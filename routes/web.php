@@ -48,6 +48,8 @@ Route::group(['middleware' => ['auth']], function () {
     /* Pagecontroller */
     Route::get('/top', [PageController::class, 'mostVotes'])->name('topVotes');
     Route::get('/comment', [PageController::class, 'mostComments'])->name('topComments');
+    Route::get('/following', [PageController::class, 'following'])->name('following');
+
 
     Route::resource('posts', PostController::class);
     Route::resource('posts.comments', CommentController::class);
@@ -66,6 +68,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post("/comment/{comment}/like", [CommentLikeController::class, "store"])->name("commentLike.store");
     Route::delete("/comment/{comment}/like", [CommentLikeController::class, "destroy"])->name("commentLike.destroy");
+
+
+    Route::post("/posts/{user}/follow", [UserProfileController::class, "follow"])->name("user.follow");
+    Route::delete("/posts/{user}/follow", [UserProfileController::class, "unfollow"])->name("user.unfollow");
 
 
     /* Userprofile */

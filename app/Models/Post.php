@@ -34,6 +34,7 @@ class Post extends Model
     {
         return $this->hasMany(Vote::class);
     }
+
     public function topVotes()
     {
         return $this->hasMany(Vote::class);
