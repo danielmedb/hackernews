@@ -30,3 +30,7 @@ Update absolute path in .env for the database. (db.sqlite)
 ## Tested By
 ###  Martin
 
+
+## Pull Request for Hackernews+
+[Pull Request](https://github.com/danielmedb/hackernews/pull/2)
+
